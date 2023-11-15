@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:food_app_example/widgets/sc1_lobby.dart';
-import 'package:food_app_example/widgets/sc2_login.dart';
+import 'package:flutter/services.dart';
+import 'package:food_app_example/widgets/sc4_search_result.dart';
 
 void main() {
-  runApp(const Sc1Lobby());
+  runApp(const Sc4SearchResult());
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
 }
 
 class MyApp extends StatelessWidget {

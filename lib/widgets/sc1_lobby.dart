@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:food_app_example/path_image.dart';
+import 'package:food_app_example/const/color_const.dart';
+import 'package:food_app_example/const/path_assets.dart';
 import 'package:food_app_example/widgets/sc2_login.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -38,16 +39,16 @@ class _Sc1LobbyState extends State<Sc1Lobby> {
                 child: Container(
                   width: double.infinity,
                   decoration: const BoxDecoration(
-                      color: Color(0xFFDB166E),
+                      color: Color(ColorConst.pink),
                       borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(100.0))),
                   child: Center(
-                    child: Image.asset(PathImage.PANDA_LOGO),
+                    child: Image.asset(PathAsset.PANDA_LOGO),
                   ),
                 ),
               ),
               Expanded(
-                child: Image.asset(PathImage.SHIPPER),
+                child: Image.asset(PathAsset.SHIPPER),
               )
             ],
           ),
