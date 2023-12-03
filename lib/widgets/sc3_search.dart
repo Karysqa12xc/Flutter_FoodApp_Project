@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:food_app_example/const/color_const.dart';
-import 'package:food_app_example/colored_svg_picture.dart';
 import 'package:food_app_example/const/path_assets.dart';
 
 import 'package:google_fonts/google_fonts.dart';
@@ -135,7 +133,9 @@ class _Sc3SearchState extends State<Sc3Search> {
                     margin: const EdgeInsets.only(
                         top: 5, left: 25, right: 25, bottom: 100),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        
+                      },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(ColorConst.pink),
                           fixedSize: const Size(320, 51)),
@@ -155,46 +155,46 @@ class _Sc3SearchState extends State<Sc3Search> {
               ),
             ),
           ),
-          bottomNavigationBar: BottomNavigationBar(
-            type: BottomNavigationBarType.fixed,
-            currentIndex: _selectedIndex,
-            showSelectedLabels: false,
-            onTap: _navigateBottomBar,
-            showUnselectedLabels: false,
-            items: [
-              BottomNavigationBarItem(
-                icon: ColoredSvgPicture(
-                    path: PathAsset.IG_FOOD,
-                    color: const Color(ColorConst.grey),
-                    isSelected: _selectedIndex == 0),
-                label: "",
-              ),
-              BottomNavigationBarItem(
-                  icon: ColoredSvgPicture(
-                      path: PathAsset.IG_LIST_ORDER,
-                      color: const Color(ColorConst.grey),
-                      isSelected: _selectedIndex == 1),
-                  label: ""),
-              BottomNavigationBarItem(
-                  icon: ColoredSvgPicture(
-                      path: PathAsset.IG_FAVORITE,
-                      color: const Color(ColorConst.grey),
-                      isSelected: _selectedIndex == 2),
-                  label: ""),
-              BottomNavigationBarItem(
-                  icon: ColoredSvgPicture(
-                      path: PathAsset.IG_NOTIFICATION,
-                      color: const Color(ColorConst.grey),
-                      isSelected: _selectedIndex == 3),
-                  label: ""),
-              BottomNavigationBarItem(
-                  icon: ColoredSvgPicture(
-                      path: PathAsset.IG_PROFILE,
-                      color: const Color(ColorConst.grey),
-                      isSelected: _selectedIndex == 4),
-                  label: ""),
-            ],
-          ),
+          // bottomNavigationBar: BottomNavigationBar(
+          //   type: BottomNavigationBarType.fixed,
+          //   currentIndex: _selectedIndex,
+          //   showSelectedLabels: false,
+          //   onTap: _navigateBottomBar,
+          //   showUnselectedLabels: false,
+          //   items: [
+          //     BottomNavigationBarItem(
+          //       icon: ColoredSvgPicture(
+          //           path: PathAsset.IG_FOOD,
+          //           color: const Color(ColorConst.grey),
+          //           isSelected: _selectedIndex == 0),
+          //       label: "",
+          //     ),
+          //     BottomNavigationBarItem(
+          //         icon: ColoredSvgPicture(
+          //             path: PathAsset.IG_LIST_ORDER,
+          //             color: const Color(ColorConst.grey),
+          //             isSelected: _selectedIndex == 1),
+          //         label: ""),
+          //     BottomNavigationBarItem(
+          //         icon: ColoredSvgPicture(
+          //             path: PathAsset.IG_FAVORITE,
+          //             color: const Color(ColorConst.grey),
+          //             isSelected: _selectedIndex == 2),
+          //         label: ""),
+          //     BottomNavigationBarItem(
+          //         icon: ColoredSvgPicture(
+          //             path: PathAsset.IG_NOTIFICATION,
+          //             color: const Color(ColorConst.grey),
+          //             isSelected: _selectedIndex == 3),
+          //         label: ""),
+          //     BottomNavigationBarItem(
+          //         icon: ColoredSvgPicture(
+          //             path: PathAsset.IG_PROFILE,
+          //             color: const Color(ColorConst.grey),
+          //             isSelected: _selectedIndex == 4),
+          //         label: ""),
+          //   ],
+          // ),
         ),
       ),
       debugShowCheckedModeBanner: false,

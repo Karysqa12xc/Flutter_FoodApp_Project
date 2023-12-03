@@ -6,10 +6,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:food_app_example/const/color_const.dart';
 import 'package:food_app_example/const/path_assets.dart';
 
-class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
+class CustomAppbar1 extends StatelessWidget implements PreferredSizeWidget {
   final Function(bool) onToggle;
   final bool isGridMode;
-  CustomAppbar({
+  const CustomAppbar1({
     Key? key,
     required this.onToggle,
     required this.isGridMode,
@@ -20,7 +20,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
     return SafeArea(
       child: Container(
         height: 126,
-        color: Color(ColorConst.pinkBold),
+        color: const Color(ColorConst.pinkBold),
         child: Column(
           children: [
             Expanded(
@@ -51,7 +51,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
                                 children: [
                                   IconButton(
                                       onPressed: () {
-                                        print("test arrow left");
+                                        debugPrint("test arrow left");
                                       },
                                       icon: SvgPicture.asset(
                                           PathAsset.IG_ARROWLEFT)),
@@ -76,7 +76,7 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
                                 children: [
                                   InkWell(
                                     onTap: () {
-                                      print("Test location button");
+                                      debugPrint("Test location button");
                                     },
                                     child: const Icon(
                                       Icons.location_on,

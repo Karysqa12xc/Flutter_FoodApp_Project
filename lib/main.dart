@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:food_app_example/widgets/sc4_search_result.dart';
+import 'package:food_app_example/widgets/sc9_book_a_table.dart';
+import 'package:food_app_example/widgets/sc_home.dart';
 
 void main() {
-  runApp(const Sc4SearchResult());
+  runApp(const ScHome());
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,

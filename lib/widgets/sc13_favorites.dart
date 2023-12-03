@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:food_app_example/const/color_const.dart';
 import 'package:food_app_example/const/path_assets.dart';
-import 'package:food_app_example/custom_appbar1.dart';
+import 'package:food_app_example/custom_app_bar2.dart';
 import 'package:food_app_example/models/item_food.dart';
-import 'package:food_app_example/widgets/sc4_gridmain.dart';
 import 'package:food_app_example/widgets/sc4_listmain.dart';
+import 'package:google_fonts/google_fonts.dart';
 
-class Sc4SearchResult extends StatefulWidget {
-  const Sc4SearchResult({Key? key}) : super(key: key);
+class Sc13Favorites extends StatefulWidget {
+  const Sc13Favorites({Key? key}) : super(key: key);
 
   @override
-  _Sc4SearchResultState createState() => _Sc4SearchResultState();
+  _Sc13FavoritesState createState() => _Sc13FavoritesState();
 }
 
-class _Sc4SearchResultState extends State<Sc4SearchResult> {
-  bool isGridMode = false;
+class _Sc13FavoritesState extends State<Sc13Favorites> {
   final List<ItemFood> items = [
     ItemFood(
         imagePath: PathAsset.SUSHI,
@@ -48,17 +48,23 @@ class _Sc4SearchResultState extends State<Sc4SearchResult> {
     return MaterialApp(
       home: SafeArea(
           child: Scaffold(
-              appBar: CustomAppbar1(
-                onToggle: (bool isGrid) {
-                  setState(() {
-                    isGridMode = isGrid;
-                  });
-                },
-                isGridMode: isGridMode,
-              ),
-              body: isGridMode
-                  ? GridMain(items: items)
-                  : ListMain(items: items))),
+        appBar: CustomAppBar2(
+          icons: const [
+            Icon(
+              Icons.search,
+              color: Color(ColorConst.white),
+            ),
+            Visibility(visible: false, child: Icon(Icons.settings))
+          ],
+          title: Text(
+            "favorites".toUpperCase(),
+            textAlign: TextAlign.center,
+            style: GoogleFonts.nunito(
+                fontSize: 14, color: Colors.white, fontWeight: FontWeight.w700),
+          ),
+        ),
+        body: ListMain(items: items),
+      )),
       debugShowCheckedModeBanner: false,
     );
   }

@@ -20,7 +20,10 @@ class PathAsset {
   static const String SPRING_ROLL = "Assets/imgs/img_spring_roll.png";
   // ignore: constant_identifier_names
   static const String HAMBURGER = "Assets/imgs/img_hamburger.png";
-
+  // ignore: constant_identifier_names
+  static const String RECTANGLE = "Assets/imgs/img_rectangle.png";
+  // ignore: constant_identifier_names
+  static const String SUCCESSFULLY = "Assets/imgs/img_successful.png";
   //* Svg path
   // ignore: constant_identifier_names
   static const String IG_SEARCH = "Assets/vectors/ig_search.svg";
@@ -47,4 +50,28 @@ class PathAsset {
   static const String IG_GRID = "Assets/vectors/ig_grid.svg";
   // ignore: constant_identifier_names
   static const String IG_STAR = "Assets/vectors/ig_star.svg";
+  // ignore: constant_identifier_names
+  static const String IG_ROTATE_CW = "Assets/vectors/ig_rotate-cw.svg";
+  // ignore: constant_identifier_names
+  static const String IG_WALLET = "Assets/vectors/ig_wallet.svg";
+  // ignore: constant_identifier_names
+  static const String IG_ORDER_LIST = "Assets/vectors/ig_orderlist.svg";
+  // ignore: constant_identifier_names
+  static const String IG_SETTING = "Assets/vectors/ig_setting.svg";
+  // ignore: constant_identifier_names
+  static const String IG_BIG_STAR = "Assets/vectors/ig_bigStar.svg";
+  // ignore: constant_identifier_names
+  static const String IG_PROFILE_TWO = "Assets/vectors/ig_profile_two.svg";
+  // ignore: constant_identifier_names
+  static const String IG_CHEVRON_RIGHT = "Assets/vectors/ig_chevron-right.svg";
+  // ignore: constant_identifier_names
+  static const String IG_VISA = "Assets/vectors/ig_visa.svg";
+  // ignore: constant_identifier_names
+  static const String IG_PAYPAL = "Assets/vectors/ig_paypal.svg";
+  // ignore: constant_identifier_names
+  static const String IG_MASTERCARD = "Assets/vectors/ig_mastercard.svg";
+  // ignore: constant_identifier_names
+  static const String IG_LIST = "Assets/vectors/ig_list.svg";
+  // ignore: constant_identifier_names
+  static const String IG_PLUS = "Assets/vectors/ig_plus.svg";
 }

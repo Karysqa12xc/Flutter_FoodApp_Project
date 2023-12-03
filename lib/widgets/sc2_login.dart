@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:food_app_example/const/color_const.dart';
 import 'package:food_app_example/const/path_assets.dart';
+import 'package:food_app_example/widgets/sc3_search.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Sc2Login extends StatefulWidget {
   const Sc2Login({Key? key}) : super(key: key);
@@ -12,11 +14,14 @@ class Sc2Login extends StatefulWidget {
 
 class _Sc2LoginState extends State<Sc2Login> {
   TextEditingController _passwordController = TextEditingController();
+  late final GlobalKey<NavigatorState> navigatorKey =
+      GlobalKey<NavigatorState>();
   // ignore: prefer_final_fields
   bool _isObscured = true;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       home: SafeArea(
         child: Scaffold(
           body: Container(
@@ -92,7 +97,14 @@ class _Sc2LoginState extends State<Sc2Login> {
                             Padding(
                                 padding: const EdgeInsets.only(top: 84),
                                 child: InkWell(
-                                  onTap: () => print('test login'),
+                                  onTap: () {
+                                    debugPrint("Test login");
+                                    navigatorKey.currentState?.push(
+                                        PageTransition(
+                                            child: const Sc3Search(),
+                                            type: PageTransitionType
+                                                .rightToLeft));
+                                  },
                                   child: Container(
                                       height: 51,
                                       width: 320,
@@ -154,13 +166,14 @@ class _Sc2LoginState extends State<Sc2Login> {
                                           color: Colors.white)),
                                   InkWell(
                                     onTap: () {
-                                      print("Test sign up");
+                                      debugPrint("Test sign up");
                                     },
                                     child: Text("Sign up",
                                         style: GoogleFonts.nunito(
                                             fontWeight: FontWeight.bold,
                                             fontSize: 13,
-                                            color: const Color(ColorConst.pink))),
+                                            color:
+                                                const Color(ColorConst.pink))),
                                   )
                                 ],
                               ),

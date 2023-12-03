@@ -16,7 +16,7 @@ class ListMain extends StatelessWidget {
         itemBuilder: (context, index) {
           return InkWell(
             onTap: () {
-              print("Test touch card in list view");
+              debugPrint("Test touch card in list view");
             },
             child: Padding(
               padding: const EdgeInsets.all(12.0),
