@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:food_app_example/const/color_const.dart';
-import 'package:food_app_example/const/path_assets.dart';
-import 'package:food_app_example/custom_app_bar2.dart';
+import 'package:food_app_example/const/img_asset.dart';
+import 'package:food_app_example/widgets/custom_app_bar2.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Sc12Notification extends StatefulWidget {
@@ -14,23 +14,21 @@ class Sc12Notification extends StatefulWidget {
 class _Sc12NotificationState extends State<Sc12Notification> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SafeArea(
-          child: Scaffold(
-        appBar: CustomAppBar2(
-            icons: const [
-              Icon(Icons.search, color: Color(ColorConst.white)),
-              Icon(Icons.settings, color: Color(ColorConst.white))
-            ],
-            title: Text(
-              "Notification".toUpperCase(),
-              style: GoogleFonts.nunito(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: const Color(ColorConst.white)),
-            )),
-        body: ListView.separated(
+    return Scaffold(
+      appBar: CustomAppBar2(
+          icons: const [
+            Icon(Icons.search, color: ColorConst.white),
+            Icon(Icons.settings, color: ColorConst.white)
+          ],
+          title: Text(
+            "Notification".toUpperCase(),
+            style: GoogleFonts.nunito(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: ColorConst.white),
+          )),
+      body: SafeArea(
+        child: ListView.separated(
             itemBuilder: (context, index) {
               return Padding(
                 padding: const EdgeInsets.all(10.0),
@@ -47,7 +45,7 @@ class _Sc12NotificationState extends State<Sc12Notification> {
                           width: 60,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(6),
-                            child: Image.asset(PathAsset.HAMBURGER,
+                            child: Image.asset(ImgAsset.HAMBURGER,
                                 fit: BoxFit.contain),
                           ),
                         ),
@@ -98,7 +96,7 @@ class _Sc12NotificationState extends State<Sc12Notification> {
               );
             },
             itemCount: 10),
-      )),
+      ),
     );
   }
 }

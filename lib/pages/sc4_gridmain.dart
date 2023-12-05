@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_app_example/const/color_const.dart';
-import 'package:food_app_example/const/path_assets.dart';
+
+import 'package:food_app_example/const/svg_asset.dart';
 import 'package:food_app_example/models/item_food.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -28,7 +29,7 @@ class GridMain extends StatelessWidget {
               padding: const EdgeInsets.all(4.0),
               child: Container(
                 decoration: BoxDecoration(
-                    color: const Color(ColorConst.white),
+                    color: ColorConst.white,
                     borderRadius: BorderRadius.circular(15),
                     boxShadow: [
                       BoxShadow(
@@ -71,21 +72,19 @@ class GridMain extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: GoogleFonts.nunito(
-                                fontSize: 11,
-                                color: const Color(ColorConst.greyBold)),
+                                fontSize: 11, color: ColorConst.greyBold),
                           ),
                           Row(
                             children: [
                               Row(
                                 children: [
-                                  SvgPicture.asset(PathAsset.IG_STAR),
-                                  SvgPicture.asset(PathAsset.IG_STAR),
-                                  SvgPicture.asset(PathAsset.IG_STAR),
-                                  SvgPicture.asset(PathAsset.IG_STAR),
-                                  SvgPicture.asset(PathAsset.IG_STAR,
+                                  SvgPicture.asset(SvgAsset.IG_STAR),
+                                  SvgPicture.asset(SvgAsset.IG_STAR),
+                                  SvgPicture.asset(SvgAsset.IG_STAR),
+                                  SvgPicture.asset(SvgAsset.IG_STAR),
+                                  SvgPicture.asset(SvgAsset.IG_STAR,
                                       colorFilter: const ColorFilter.mode(
-                                          Color(ColorConst.grey),
-                                          BlendMode.srcIn)),
+                                          ColorConst.grey, BlendMode.srcIn)),
                                 ],
                               ),
                               Text(

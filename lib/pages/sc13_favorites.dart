@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:food_app_example/const/color_const.dart';
-import 'package:food_app_example/const/path_assets.dart';
-import 'package:food_app_example/custom_app_bar2.dart';
+import 'package:food_app_example/const/img_asset.dart';
 import 'package:food_app_example/models/item_food.dart';
-import 'package:food_app_example/widgets/sc4_listmain.dart';
+import 'package:food_app_example/pages/sc4_listmain.dart';
+import 'package:food_app_example/widgets/custom_app_bar2.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Sc13Favorites extends StatefulWidget {
@@ -16,56 +16,62 @@ class Sc13Favorites extends StatefulWidget {
 class _Sc13FavoritesState extends State<Sc13Favorites> {
   final List<ItemFood> items = [
     ItemFood(
-        imagePath: PathAsset.SUSHI,
+        imagePath: ImgAsset.SUSHI,
         title: "Tuna Sushi Platter (3 Types)",
         description:
             "Sushi Platter | Tuna (2 pcs), Semi-fatty Tuna (2 pcs).\nPrime Fatty Tuna(2pcs)",
-        reviews: "298 reviews"),
+        reviews: "298 reviews",
+        cost: ''),
     ItemFood(
-        imagePath: PathAsset.CURRY,
+        imagePath: ImgAsset.CURRY,
         title: "Secret Curry with Pan-seared Lamb For Everyone",
         description: "Lipie, carne pui, cartofi pai,\nsosuri, salata - 700g",
-        reviews: "298 reviews"),
+        reviews: "298 reviews",
+        cost: ''),
     ItemFood(
-        imagePath: PathAsset.SPRING_ROLL,
+        imagePath: ImgAsset.SPRING_ROLL,
         title: "Nem 5 chiếc",
         description: "Đồ ăn siêu ngon dành cho người không muốn ăn kiêng",
-        reviews: "298 reviews"),
+        reviews: "298 reviews",
+        cost: ''),
     ItemFood(
-        imagePath: PathAsset.HAMBURGER,
+        imagePath: ImgAsset.HAMBURGER,
         title: "Bánh kẹp thịt",
         description:
             "Đồ ăn cho người béo rất tốt cho sức khoẻ nếu ăn trên 10 chiếc, ngon hơn khi không có rau",
-        reviews: "298 reviews"),
+        reviews: "298 reviews",
+        cost: ''),
     ItemFood(
-        imagePath: PathAsset.CURRY,
+        imagePath: ImgAsset.CURRY,
         title: "Secret Curry with Pan-seared Lamb For Everyone",
         description: "Lipie, carne pui, cartofi pai,\nsosuri, salata - 700g",
-        reviews: "298 reviews"),
+        reviews: "298 reviews",
+        cost: ''),
   ];
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: SafeArea(
-          child: Scaffold(
-        appBar: CustomAppBar2(
-          icons: const [
-            Icon(
-              Icons.search,
-              color: Color(ColorConst.white),
-            ),
-            Visibility(visible: false, child: Icon(Icons.settings))
-          ],
-          title: Text(
-            "favorites".toUpperCase(),
-            textAlign: TextAlign.center,
-            style: GoogleFonts.nunito(
-                fontSize: 14, color: Colors.white, fontWeight: FontWeight.w700),
+    return Scaffold(
+      appBar: CustomAppBar2(
+        icons: const [
+          Icon(
+            Icons.search,
+            color: ColorConst.white,
           ),
+          Visibility(
+              visible: true,
+              child: Icon(
+                Icons.settings,
+                color: ColorConst.white,
+              ))
+        ],
+        title: Text(
+          "favorites".toUpperCase(),
+          textAlign: TextAlign.center,
+          style: GoogleFonts.nunito(
+              fontSize: 14, color: Colors.white, fontWeight: FontWeight.w700),
         ),
-        body: ListMain(items: items),
-      )),
-      debugShowCheckedModeBanner: false,
+      ),
+      body: SafeArea(child: ListMain(items: items)),
     );
   }
 }

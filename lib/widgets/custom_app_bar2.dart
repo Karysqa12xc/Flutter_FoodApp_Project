@@ -17,7 +17,7 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
     return Container(
       width: double.infinity,
       height: 68,
-      color: const Color(ColorConst.pink),
+      color: ColorConst.pink,
       child: Padding(
         padding: const EdgeInsets.only(top: 15),
         child: Row(

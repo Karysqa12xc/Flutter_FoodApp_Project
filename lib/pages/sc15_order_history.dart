@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_app_example/const/color_const.dart';
-import 'package:food_app_example/const/path_assets.dart';
-import 'package:food_app_example/custom_app_bar2.dart';
+import 'package:food_app_example/const/img_asset.dart';
+
+import 'package:food_app_example/const/svg_asset.dart';
+import 'package:food_app_example/widgets/custom_app_bar2.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Sc15OrderHistory extends StatefulWidget {
@@ -15,35 +17,33 @@ class Sc15OrderHistory extends StatefulWidget {
 class _Sc15OrderHistoryState extends State<Sc15OrderHistory> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SafeArea(
-          child: Scaffold(
-        appBar: CustomAppBar2(
-          icons: const [
-            Icon(
-              Icons.search,
-              color: Color(ColorConst.white),
-            ),
-            Visibility(
-                visible: true,
-                child: Icon(Icons.settings, color: Color(ColorConst.white)))
-          ],
-          title: Text(
-            "order history".toUpperCase(),
-            textAlign: TextAlign.center,
-            style: GoogleFonts.nunito(
-                fontSize: 14, color: Colors.white, fontWeight: FontWeight.w700),
+    return Scaffold(
+      appBar: CustomAppBar2(
+        icons: const [
+          Icon(
+            Icons.search,
+            color: ColorConst.white,
           ),
+          Visibility(
+              visible: true,
+              child: Icon(Icons.settings, color: ColorConst.white))
+        ],
+        title: Text(
+          "order history".toUpperCase(),
+          textAlign: TextAlign.center,
+          style: GoogleFonts.nunito(
+              fontSize: 14, color: Colors.white, fontWeight: FontWeight.w700),
         ),
-        body: ListView.builder(
+      ),
+      body: SafeArea(
+        child: ListView.builder(
           itemCount: 10,
           itemBuilder: (context, index) {
             return Padding(
               padding: const EdgeInsets.all(12.0),
               child: Container(
                 decoration: BoxDecoration(
-                    color: const Color(ColorConst.white),
+                    color: ColorConst.white,
                     borderRadius: BorderRadius.circular(10),
                     boxShadow: [
                       BoxShadow(
@@ -66,7 +66,7 @@ class _Sc15OrderHistoryState extends State<Sc15OrderHistory> {
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(5),
                                   child: Image.asset(
-                                    PathAsset.SPRING_ROLL,
+                                    ImgAsset.SPRING_ROLL,
                                     fit: BoxFit.contain,
                                   )),
                             ),
@@ -82,19 +82,18 @@ class _Sc15OrderHistoryState extends State<Sc15OrderHistory> {
                                     style: GoogleFonts.nunito(
                                         fontSize: 11,
                                         fontWeight: FontWeight.w400,
-                                        color:
-                                            const Color(ColorConst.greyBold))),
+                                        color: ColorConst.greyBold)),
                                 Row(
                                   children: [
                                     Row(
                                       children: [
-                                        SvgPicture.asset(PathAsset.IG_STAR),
-                                        SvgPicture.asset(PathAsset.IG_STAR),
-                                        SvgPicture.asset(PathAsset.IG_STAR),
-                                        SvgPicture.asset(PathAsset.IG_STAR),
-                                        SvgPicture.asset(PathAsset.IG_STAR,
+                                        SvgPicture.asset(SvgAsset.IG_STAR),
+                                        SvgPicture.asset(SvgAsset.IG_STAR),
+                                        SvgPicture.asset(SvgAsset.IG_STAR),
+                                        SvgPicture.asset(SvgAsset.IG_STAR),
+                                        SvgPicture.asset(SvgAsset.IG_STAR,
                                             colorFilter: const ColorFilter.mode(
-                                                Color(ColorConst.grey),
+                                                ColorConst.grey,
                                                 BlendMode.srcIn)),
                                       ],
                                     ),
@@ -104,7 +103,7 @@ class _Sc15OrderHistoryState extends State<Sc15OrderHistory> {
                                       style: GoogleFonts.nunito(
                                           fontSize: 10,
                                           fontWeight: FontWeight.w700,
-                                          color: const Color(ColorConst.grey)),
+                                          color: ColorConst.grey),
                                     )
                                   ],
                                 )
@@ -129,13 +128,13 @@ class _Sc15OrderHistoryState extends State<Sc15OrderHistory> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                SvgPicture.asset(PathAsset.IG_LIST),
+                                SvgPicture.asset(SvgAsset.IG_LIST),
                                 const SizedBox(width: 5),
                                 Text("28 Nov 2021 10 : 32 AM",
                                     style: GoogleFonts.nunito(
                                         fontSize: 13,
                                         fontWeight: FontWeight.bold,
-                                        color: const Color(ColorConst.black))),
+                                        color: ColorConst.black)),
                               ],
                             ),
                             Text(
@@ -143,7 +142,7 @@ class _Sc15OrderHistoryState extends State<Sc15OrderHistory> {
                               style: GoogleFonts.nunito(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
-                                  color: const Color(ColorConst.pink)),
+                                  color: ColorConst.pink),
                             )
                           ],
                         ),
@@ -155,7 +154,7 @@ class _Sc15OrderHistoryState extends State<Sc15OrderHistory> {
             );
           },
         ),
-      )),
+      ),
     );
   }
 }

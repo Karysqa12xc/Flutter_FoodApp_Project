@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_app_example/const/color_const.dart';
-import 'package:food_app_example/const/path_assets.dart';
-import 'package:food_app_example/custom_app_bar2.dart';
+import 'package:food_app_example/const/img_asset.dart';
+import 'package:food_app_example/const/svg_asset.dart';
+import 'package:food_app_example/widgets/custom_app_bar2.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Sc16Reviews extends StatefulWidget {
@@ -15,30 +16,26 @@ class Sc16Reviews extends StatefulWidget {
 class _Sc16ReviewsState extends State<Sc16Reviews> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: SafeArea(
-          child: Scaffold(
-        appBar: CustomAppBar2(
-            icons: [
-              SvgPicture.asset(
-                PathAsset.IG_ARROWLEFT,
-                colorFilter:
-                    const ColorFilter.mode(Colors.white, BlendMode.srcIn),
-              ),
-              const Icon(
-                Icons.search,
-                color: Colors.white,
-              )
-            ],
-            title: Text(
-              "reviews".toUpperCase(),
-              style: GoogleFonts.nunito(
-                  fontSize: 14,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold),
-            )),
-        body: ListView.separated(
+    return Scaffold(
+      appBar: CustomAppBar2(
+          icons: [
+            SvgPicture.asset(
+              SvgAsset.IG_ARROWLEFT,
+              colorFilter:
+                  const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+            ),
+            const Icon(
+              Icons.search,
+              color: Colors.white,
+            )
+          ],
+          title: Text(
+            "reviews".toUpperCase(),
+            style: GoogleFonts.nunito(
+                fontSize: 14, color: Colors.white, fontWeight: FontWeight.bold),
+          )),
+      body: SafeArea(
+        child: ListView.separated(
             itemBuilder: (context, index) {
               return InkWell(
                   onTap: () {
@@ -52,7 +49,7 @@ class _Sc16ReviewsState extends State<Sc16Reviews> {
                           children: [
                             const CircleAvatar(
                               radius: 20,
-                              backgroundImage: AssetImage(PathAsset.AVATAR),
+                              backgroundImage: AssetImage(ImgAsset.AVATAR),
                             ),
                             const SizedBox(width: 10),
                             Expanded(
@@ -67,18 +64,18 @@ class _Sc16ReviewsState extends State<Sc16Reviews> {
                                   Text("2 hours ago",
                                       style: GoogleFonts.nunito(
                                           fontSize: 13,
-                                          color: Color(ColorConst.greyBold))),
+                                          color: ColorConst.greyBold)),
                                   const SizedBox(height: 5),
                                 ],
                               ),
                             ),
                             Row(
                               children: [
-                                SvgPicture.asset(PathAsset.IG_STAR),
-                                SvgPicture.asset(PathAsset.IG_STAR),
-                                SvgPicture.asset(PathAsset.IG_STAR),
-                                SvgPicture.asset(PathAsset.IG_STAR),
-                                SvgPicture.asset(PathAsset.IG_STAR,
+                                SvgPicture.asset(SvgAsset.IG_STAR),
+                                SvgPicture.asset(SvgAsset.IG_STAR),
+                                SvgPicture.asset(SvgAsset.IG_STAR),
+                                SvgPicture.asset(SvgAsset.IG_STAR),
+                                SvgPicture.asset(SvgAsset.IG_STAR,
                                     colorFilter: const ColorFilter.mode(
                                         Color.fromARGB(255, 102, 81, 81),
                                         BlendMode.srcIn)),
@@ -99,7 +96,7 @@ class _Sc16ReviewsState extends State<Sc16Reviews> {
               );
             },
             itemCount: 10),
-      )),
+      ),
     );
   }
 }

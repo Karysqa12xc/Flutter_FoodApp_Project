@@ -3,6 +3,12 @@ class ItemFood {
   final String title;
   final String description;
   final String reviews;
-  ItemFood(
-      {required this.imagePath, required this.title,required this.description ,required this.reviews});
+  final String cost;
+  ItemFood({
+    required this.imagePath,
+    required this.title,
+    required this.description,
+    required this.reviews,
+    required this.cost,
+  });
 }

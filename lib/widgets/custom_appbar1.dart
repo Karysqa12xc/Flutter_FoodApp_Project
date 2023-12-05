@@ -1,10 +1,10 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:food_app_example/const/svg_asset.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:food_app_example/const/color_const.dart';
-import 'package:food_app_example/const/path_assets.dart';
 
 class CustomAppbar1 extends StatelessWidget implements PreferredSizeWidget {
   final Function(bool) onToggle;
@@ -20,13 +20,13 @@ class CustomAppbar1 extends StatelessWidget implements PreferredSizeWidget {
     return SafeArea(
       child: Container(
         height: 126,
-        color: const Color(ColorConst.pinkBold),
+        color: ColorConst.pinkBold,
         child: Column(
           children: [
             Expanded(
               child: Container(
                 decoration: const BoxDecoration(
-                    color: Color(ColorConst.pink),
+                    color: ColorConst.pink,
                     borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(30),
                         bottomRight: Radius.circular(30))),
@@ -42,7 +42,7 @@ class CustomAppbar1 extends StatelessWidget implements PreferredSizeWidget {
                             contentPadding: const EdgeInsets.symmetric(
                                 vertical: 8, horizontal: 12),
                             hintStyle: GoogleFonts.nunito(
-                                color: const Color(ColorConst.grey),
+                                color: ColorConst.grey,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600),
                             prefixIcon: SizedBox(
@@ -54,11 +54,11 @@ class CustomAppbar1 extends StatelessWidget implements PreferredSizeWidget {
                                         debugPrint("test arrow left");
                                       },
                                       icon: SvgPicture.asset(
-                                          PathAsset.IG_ARROWLEFT)),
+                                          SvgAsset.IG_ARROWLEFT)),
                                   Container(
                                     width: 1.0,
                                     height: 29,
-                                    color: const Color(ColorConst.grey),
+                                    color: ColorConst.grey,
                                   ),
                                   const Padding(
                                     padding: EdgeInsets.only(left: 10),
@@ -80,7 +80,7 @@ class CustomAppbar1 extends StatelessWidget implements PreferredSizeWidget {
                                     },
                                     child: const Icon(
                                       Icons.location_on,
-                                      color: Color(ColorConst.pink),
+                                      color: ColorConst.pink,
                                     ),
                                   ),
                                   Padding(
@@ -99,8 +99,8 @@ class CustomAppbar1 extends StatelessWidget implements PreferredSizeWidget {
                             isDense: true,
                             focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8.0),
-                                borderSide: const BorderSide(
-                                    color: Color(ColorConst.pink))),
+                                borderSide:
+                                    const BorderSide(color: ColorConst.pink)),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
                             ),
@@ -119,7 +119,7 @@ class CustomAppbar1 extends StatelessWidget implements PreferredSizeWidget {
                                   child: Text(
                                     "Nearby",
                                     style: GoogleFonts.nunito(
-                                        color: const Color(ColorConst.white),
+                                        color: ColorConst.white,
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -132,7 +132,7 @@ class CustomAppbar1 extends StatelessWidget implements PreferredSizeWidget {
                                   child: Text(
                                     "Popular",
                                     style: GoogleFonts.nunito(
-                                        color: const Color(ColorConst.white),
+                                        color: ColorConst.white,
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -145,7 +145,7 @@ class CustomAppbar1 extends StatelessWidget implements PreferredSizeWidget {
                                   child: Text(
                                     "Top review",
                                     style: GoogleFonts.nunito(
-                                        color: const Color(ColorConst.white),
+                                        color: ColorConst.white,
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -158,7 +158,7 @@ class CustomAppbar1 extends StatelessWidget implements PreferredSizeWidget {
                                   child: Text(
                                     "Recommend",
                                     style: GoogleFonts.nunito(
-                                        color: const Color(ColorConst.white),
+                                        color: ColorConst.white,
                                         fontSize: 12,
                                         fontWeight: FontWeight.bold),
                                   ),
@@ -184,12 +184,11 @@ class CustomAppbar1 extends StatelessWidget implements PreferredSizeWidget {
                       children: [
                         IconButton(
                           onPressed: () {},
-                          icon: SvgPicture.asset(PathAsset.IG_FILTER),
+                          icon: SvgPicture.asset(SvgAsset.IG_FILTER),
                         ),
                         Text(
                           "Filter",
-                          style: GoogleFonts.nunito(
-                              color: Color(ColorConst.white)),
+                          style: GoogleFonts.nunito(color: ColorConst.white),
                         )
                       ],
                     ),
@@ -201,10 +200,10 @@ class CustomAppbar1 extends StatelessWidget implements PreferredSizeWidget {
                             onPressed: () {
                               onToggle(!isGridMode);
                             },
-                            icon: SvgPicture.asset(PathAsset.IG_GRID)),
+                            icon: SvgPicture.asset(SvgAsset.IG_GRID)),
                         IconButton(
                             onPressed: () {},
-                            icon: SvgPicture.asset(PathAsset.IG_MESSAGE_SQUARE))
+                            icon: SvgPicture.asset(SvgAsset.IG_MESSAGE_SQUARE))
                       ],
                     ),
                   )
