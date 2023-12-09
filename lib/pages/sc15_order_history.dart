@@ -24,9 +24,7 @@ class _Sc15OrderHistoryState extends State<Sc15OrderHistory> {
             Icons.search,
             color: ColorConst.white,
           ),
-          Visibility(
-              visible: true,
-              child: Icon(Icons.settings, color: ColorConst.white))
+          Icon(Icons.settings, color: ColorConst.white)
         ],
         title: Text(
           "order history".toUpperCase(),

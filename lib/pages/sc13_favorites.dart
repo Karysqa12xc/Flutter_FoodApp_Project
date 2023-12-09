@@ -57,12 +57,10 @@ class _Sc13FavoritesState extends State<Sc13Favorites> {
             Icons.search,
             color: ColorConst.white,
           ),
-          Visibility(
-              visible: true,
-              child: Icon(
-                Icons.settings,
-                color: ColorConst.white,
-              ))
+          Icon(
+            Icons.settings,
+            color: ColorConst.white,
+          )
         ],
         title: Text(
           "favorites".toUpperCase(),

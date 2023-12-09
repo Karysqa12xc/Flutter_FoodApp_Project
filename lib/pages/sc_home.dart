@@ -28,14 +28,6 @@ class _ScHomeState extends State<ScHome> {
     super.initState();
   }
 
-  int _selectedIndex = 0;
-  void _navigateBottomBar(int index) {
-    setState(() {
-      _selectedIndex = index;
-      print(_selectedIndex);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     List<bool> isSelectedList = List.filled(5, false);
@@ -58,12 +50,16 @@ class _ScHomeState extends State<ScHome> {
                   }
                 },
                 controller: controller,
-                children: const [
+                children: [
                   Sc3Search(),
                   Sc15OrderHistory(),
                   Sc13Favorites(),
                   Sc12Notification(),
-                  Sc8Profile(),
+                  Sc8Profile(
+                    onIndexChanged: (index) {
+                      controller.jumpToPage(index);
+                    },
+                  ),
                 ],
               ),
             ),

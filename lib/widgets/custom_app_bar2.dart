@@ -14,6 +14,8 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final IconData? firstIconData = (icons[0] as Icon).icon;
+    final IconData? secondIconData = (icons[1] as Icon).icon;
     return Container(
       width: double.infinity,
       height: 68,
@@ -28,7 +30,12 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
               padding: const EdgeInsets.only(left: 15),
               child: InkWell(
                 onTap: () {
-                  debugPrint("sc4 back");
+                  if (firstIconData == Icons.arrow_back) {
+                    debugPrint("back");
+                    Navigator.of(context).pop();
+                  } else if (firstIconData == Icons.search) {
+                    debugPrint("search");
+                  }
                 },
                 child: icons[0],
               ),
@@ -37,7 +44,11 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
             Padding(
               padding: const EdgeInsets.only(right: 15),
               child: InkWell(
-                onTap: () {},
+                onTap: () {
+                  if (secondIconData == Icons.settings) {
+                    debugPrint("Settings btn");
+                  }
+                },
                 child: icons[1],
               ),
             )

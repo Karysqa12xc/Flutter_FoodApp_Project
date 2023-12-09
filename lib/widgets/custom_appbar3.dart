@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_app_example/const/color_const.dart';
 import 'package:food_app_example/const/svg_asset.dart';
+import 'package:food_app_example/pages/sc6_details_restaurant.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:weekly_date_picker/weekly_date_picker.dart';
 
 class CustomAppbar3 extends StatefulWidget implements PreferredSizeWidget {
@@ -42,7 +44,11 @@ class _CustomAppbar3State extends State<CustomAppbar3> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(PageTransition(
+                          child: Sc6DetailsRestaurant(),
+                          type: PageTransitionType.leftToRight));
+                    },
                     icon: SvgPicture.asset(
                       SvgAsset.IG_PLUS,
                       height: 50,

@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:food_app_example/const/color_const.dart';
 import 'package:food_app_example/const/img_asset.dart';
+import 'package:food_app_example/pages/sc4_search_result.dart';
 
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Sc3Search extends StatefulWidget {
   const Sc3Search({Key? key}) : super(key: key);
@@ -102,7 +104,34 @@ class _Sc3SearchState extends State<Sc3Search> {
                                 color: Colors.grey,
                               )),
                           suffixIcon: IconButton(
-                              onPressed: () {},
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        content: Container(
+                                          height: 200,
+                                          width: 300,
+                                          color: ColorConst.white,
+                                          child: ListView.separated(
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              return Text("Viet Nam");
+                                            },
+                                            separatorBuilder:
+                                                (BuildContext context,
+                                                    int index) {
+                                              return Container(
+                                                height: 1,
+                                                color: ColorConst.grey,
+                                              );
+                                            },
+                                            itemCount: 10,
+                                          ),
+                                        ),
+                                      );
+                                    });
+                              },
                               icon: const Icon(
                                 Icons.location_on,
                                 color: ColorConst.pink,
@@ -125,7 +154,11 @@ class _Sc3SearchState extends State<Sc3Search> {
                     margin: const EdgeInsets.only(
                         top: 5, left: 25, right: 25, bottom: 100),
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(PageTransition(
+                            child: Sc4SearchResult(),
+                            type: PageTransitionType.theme));
+                      },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: ColorConst.pink,
                           fixedSize: const Size(360, 51)),

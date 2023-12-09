@@ -319,9 +319,9 @@ class _Sc9And11BookATableState extends State<Sc9And11BookATable> {
                                         height: 50,
                                         width: 150,
                                         child: ElevatedButton(
-                                            onPressed: () {
+                                            onPressed: () async {
                                               Navigator.of(context).pop();
-                                              Navigator.of(context)
+                                              await Navigator.of(context)
                                                   .pushReplacement(
                                                       PageTransition(
                                                           child: const ScHome(),

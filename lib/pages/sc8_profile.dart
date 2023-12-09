@@ -3,16 +3,20 @@ import 'package:flutter_svg/svg.dart';
 import 'package:food_app_example/const/color_const.dart';
 import 'package:food_app_example/const/img_asset.dart';
 import 'package:food_app_example/const/svg_asset.dart';
+import 'package:food_app_example/pages/sc10_payment_method.dart';
+import 'package:food_app_example/pages/sc17_settings.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Sc8Profile extends StatefulWidget {
-  const Sc8Profile({Key? key}) : super(key: key);
-
+  final void Function(int) onIndexChanged;
+  const Sc8Profile({Key? key, required this.onIndexChanged}) : super(key: key);
   @override
   _Sc8ProfileState createState() => _Sc8ProfileState();
 }
 
 class _Sc8ProfileState extends State<Sc8Profile> {
+  final PageController controller = PageController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,6 +110,8 @@ class _Sc8ProfileState extends State<Sc8Profile> {
                 child: InkWell(
                   onTap: () {
                     debugPrint("Order history");
+
+                    widget.onIndexChanged(1);
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -139,6 +145,9 @@ class _Sc8ProfileState extends State<Sc8Profile> {
                 child: InkWell(
                   onTap: () {
                     debugPrint("Payment Method");
+                    Navigator.of(context).push(PageTransition(
+                        child: Sc10PaymentMethod(),
+                        type: PageTransitionType.rightToLeft));
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -207,6 +216,9 @@ class _Sc8ProfileState extends State<Sc8Profile> {
                 child: InkWell(
                   onTap: () {
                     debugPrint("Settings");
+                    Navigator.of(context).push(PageTransition(
+                        child: Sc17Settings(),
+                        type: PageTransitionType.leftToRight));
                   },
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,

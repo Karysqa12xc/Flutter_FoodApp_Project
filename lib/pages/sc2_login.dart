@@ -1,7 +1,12 @@
+import 'package:email_validator/email_validator.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app_example/const/color_const.dart';
 import 'package:food_app_example/const/img_asset.dart';
-import 'package:food_app_example/pages/sc3_search.dart';
+import 'package:food_app_example/pages/sc2_signup.dart';
+
+import 'package:food_app_example/pages/sc_home.dart';
+import 'package:food_app_example/services/firebase_services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -14,11 +19,14 @@ class Sc2Login extends StatefulWidget {
 
 class _Sc2LoginState extends State<Sc2Login> {
   TextEditingController _passwordController = TextEditingController();
+  TextEditingController _userEmailController = TextEditingController();
   FocusNode focusNodeUser = FocusNode();
   FocusNode focusNodePassword = FocusNode();
   bool isDisplayKeyboard = true;
-  // ignore: prefer_final_fields
+  bool isEmailCorrect = false;
   bool _isObscured = false;
+
+  final GlobalKey<FormState> _fromKey = GlobalKey<FormState>();
   @override
   void initState() {
     // TODO: implement initState
@@ -38,6 +46,7 @@ class _Sc2LoginState extends State<Sc2Login> {
   @override
   void dispose() {
     _passwordController.dispose();
+    _userEmailController.dispose();
     focusNodePassword.dispose();
     focusNodeUser.dispose();
     // TODO: implement dispose
@@ -73,15 +82,32 @@ class _Sc2LoginState extends State<Sc2Login> {
                     child: Padding(
                       padding: const EdgeInsets.only(right: 27, left: 27),
                       child: Form(
+                        key: _fromKey,
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             TextFormField(
                               focusNode: focusNodeUser,
+                              controller: _userEmailController,
                               style: GoogleFonts.nunitoSans(
                                   fontSize: 16, color: Colors.white),
+                              validator: (value) {
+                                if (_userEmailController.text.isEmpty) {
+                                  return "Please enter your email";
+                                }
+                                if (!isEmailCorrect) {
+                                  return "Input Email failed";
+                                }
+                                return null;
+                              },
+                              onChanged: (value) {
+                                setState(() {
+                                  isEmailCorrect =
+                                      EmailValidator.validate(value);
+                                });
+                              },
                               decoration: const InputDecoration(
-                                  hintText: "Username",
+                                  hintText: "Email",
                                   hintStyle: TextStyle(
                                       color: Colors.white, fontSize: 16),
                                   enabledBorder: UnderlineInputBorder(
@@ -95,7 +121,16 @@ class _Sc2LoginState extends State<Sc2Login> {
                             TextFormField(
                               focusNode: focusNodePassword,
                               controller: _passwordController,
-                              obscureText: _isObscured,
+                              obscureText: !_isObscured,
+                              validator: (value) {
+                                if (_passwordController.text.isEmpty) {
+                                  return "Please enter your password";
+                                }
+                                if (_passwordController.text.length < 8) {
+                                  return "Limit 8 characters";
+                                }
+                                return null;
+                              },
                               style: GoogleFonts.nunitoSans(
                                   fontSize: 16, color: Colors.white),
                               decoration: InputDecoration(
@@ -104,15 +139,15 @@ class _Sc2LoginState extends State<Sc2Login> {
                                     icon: isDisplayKeyboard
                                         ? Icon(
                                             _isObscured
-                                                ? Icons.visibility_off
-                                                : Icons.visibility,
+                                                ? Icons.visibility
+                                                : Icons.visibility_off,
                                             color: Colors.white)
                                         : const Visibility(
                                             visible: true,
-                                            child: Icon(Icons.visibility_off)),
+                                            child: Icon(Icons.visibility)),
                                     onPressed: () {
                                       setState(() {
-                                        _isObscured = _isObscured;
+                                        _isObscured = !_isObscured;
                                       });
                                     },
                                   ),
@@ -129,9 +164,39 @@ class _Sc2LoginState extends State<Sc2Login> {
                             InkWell(
                               onTap: () {
                                 debugPrint("Test login");
-                                Navigator.of(context).push(PageTransition(
-                                    child: const Sc3Search(),
-                                    type: PageTransitionType.rightToLeft));
+                                try {
+                                  if (_fromKey.currentState!.validate()) {
+                                    FirebaseAuth.instance
+                                        .signInWithEmailAndPassword(
+                                            email: _userEmailController.text,
+                                            password: _passwordController.text)
+                                        .then((value) {
+                                      Navigator.of(context).pushReplacement(
+                                          PageTransition(
+                                              child: const ScHome(),
+                                              type: PageTransitionType
+                                                  .rightToLeft));
+                                    }).onError((error, stackTrace) {
+                                      debugPrint("Error ${error}");
+                                    });
+                                  } else {
+                                    debugPrint("Error in login button");
+                                  }
+                                } catch (e) {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return AlertDialog(
+                                        content: Container(
+                                          height: 200,
+                                          width: 200,
+                                          color: ColorConst.white,
+                                          child: Text("${e.toString()}"),
+                                        ),
+                                      );
+                                    },
+                                  );
+                                }
                               },
                               child: Container(
                                   height: 51,
@@ -149,9 +214,34 @@ class _Sc2LoginState extends State<Sc2Login> {
                             Column(
                               children: [
                                 InkWell(
-                                  // ignore: avoid_print
-                                  onTap: () =>
-                                      debugPrint("test connect facebook"),
+                                  onTap: () async {
+                                    debugPrint("test connect facebook");
+                                    try {
+                                      await signInWithFacebook();
+                                      if (context.mounted) {
+                                        Navigator.of(context).pushReplacement(
+                                            PageTransition(
+                                                child: ScHome(),
+                                                type: PageTransitionType
+                                                    .leftToRight));
+                                      }
+                                    } catch (e) {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return AlertDialog(
+                                            content: Container(
+                                              height: 200,
+                                              width: 300,
+                                              color: ColorConst.white,
+                                              child: Text(
+                                                  "Đã xảy ra lỗi ${e.toString()}"),
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    }
+                                  },
                                   child: Container(
                                       height: 51,
                                       width: 320,
@@ -193,6 +283,11 @@ class _Sc2LoginState extends State<Sc2Login> {
                                       InkWell(
                                         onTap: () {
                                           debugPrint("Test sign up");
+                                          Navigator.of(context).push(
+                                              PageTransition(
+                                                  child: Sc2Signup(),
+                                                  type: PageTransitionType
+                                                      .bottomToTop));
                                         },
                                         child: Text("Sign up",
                                             style: GoogleFonts.nunito(

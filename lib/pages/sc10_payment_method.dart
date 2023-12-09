@@ -36,12 +36,9 @@ class _Sc10PaymentMethodState extends State<Sc10PaymentMethod> {
               Icons.arrow_back,
               color: Colors.white,
             ),
-            Visibility(
-              visible: true,
-              child: Icon(
-                Icons.search,
-                color: Colors.white,
-              ),
+            Icon(
+              Icons.search,
+              color: Colors.white,
             )
           ],
           title: Text(

@@ -3,7 +3,11 @@ import 'package:flutter_svg/svg.dart';
 import 'package:food_app_example/const/color_const.dart';
 import 'package:food_app_example/const/img_asset.dart';
 import 'package:food_app_example/const/svg_asset.dart';
+import 'package:food_app_example/pages/sc16_reviews.dart';
+import 'package:food_app_example/pages/sc7_categories.dart';
+import 'package:food_app_example/pages/sc9_and_11_book_a_table.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
 class Sc6DetailsRestaurant extends StatefulWidget {
   const Sc6DetailsRestaurant({Key? key}) : super(key: key);
@@ -30,53 +34,85 @@ class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
                 ),
               ),
             ),
-            Container(
-              color: ColorConst.white,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Thịt bò sốt vang của người Ý",
-                    style: GoogleFonts.nunito(),
-                  ),
-                  Text(
-                    "Thịt bò sốt vang",
-                    style: GoogleFonts.nunito(),
-                  ),
-                  Row(
-                    children: [
-                      SvgPicture.asset(SvgAsset.IG_STAR),
-                      Text(
-                        "289 reviews",
-                        style: GoogleFonts.nunito(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                color: ColorConst.white,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Thịt bò sốt vang của người Ý",
+                      style: GoogleFonts.nunito(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
                       ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Column(
-                        children: [
-                          Text(
-                            "Open in".toUpperCase(),
-                            style: GoogleFonts.nunito(),
-                          ),
-                          Text(
-                            "10:30 - 23:30",
-                            style: GoogleFonts.nunito(),
-                          )
-                        ],
-                      ),
-                      ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: ColorConst.pink),
-                          onPressed: () {},
-                          child: Text(
-                            "Contact",
-                            style: GoogleFonts.nunito(),
-                          ))
-                    ],
-                  ),
-                ],
+                    ),
+                    Text(
+                      "Ngon hơn khi để nguội",
+                      style: GoogleFonts.nunito(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: ColorConst.greyBold),
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SvgPicture.asset(SvgAsset.IG_STAR),
+                        SvgPicture.asset(SvgAsset.IG_STAR),
+                        SvgPicture.asset(SvgAsset.IG_STAR),
+                        SvgPicture.asset(SvgAsset.IG_STAR),
+                        SvgPicture.asset(SvgAsset.IG_STAR,
+                            colorFilter: ColorFilter.mode(
+                                ColorConst.grey, BlendMode.srcIn)),
+                        SizedBox(width: 10),
+                        Text(
+                          "289 reviews",
+                          style: GoogleFonts.nunito(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w400,
+                              color: ColorConst.greyBold),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Open in".toUpperCase(),
+                              style: GoogleFonts.nunito(
+                                  color: ColorConst.greyBold),
+                            ),
+                            Text(
+                              "10:30 - 23:30",
+                              style: GoogleFonts.nunito(),
+                            )
+                          ],
+                        ),
+                        ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: ColorConst.pink),
+                            onPressed: () {},
+                            child: Row(
+                              children: [
+                                Icon(Icons.phone),
+                                Text(
+                                  "Contact",
+                                  style: GoogleFonts.nunito(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ))
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 10),
@@ -125,10 +161,14 @@ class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text("Descriptions".toUpperCase(),
-                        style: GoogleFonts.nunito()),
+                        style: GoogleFonts.nunito(
+                            fontWeight: FontWeight.bold,
+                            color: ColorConst.black)),
+                    SizedBox(height: 10),
                     Text(
-                        "Food is scrumptious, delicious, delectable, luscious,\ngreat tasting, much more than tasty, really appetizing,\nlip-smacking; the kind of food to have you licking your\nlips in anticipation. This is the word everyone wants to\nhear when bringing food to the table. Yummy food is\nnever unpalatable, plain tasting, distasteful or\ndisgusting. Veiw more",
-                        style: GoogleFonts.nunito()),
+                        "Food is scrumptious, delicious, delectable, luscious,\ngreat tasting, much more than tasty, really appetizing,\nlip-smacking; the kind of food to have you licking your\nlips in anticipation. This is the word everyone wants to\nhear when bringing food to the table. Yummy food is\nnever unpalatable, plain tasting, distasteful or\ndisgusting. View more",
+                        style: GoogleFonts.nunito(
+                            fontSize: 14, fontWeight: FontWeight.w500)),
                   ],
                 ),
               ),
@@ -139,44 +179,70 @@ class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
                 width: double.infinity,
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        Text("Menu".toUpperCase()),
-                        Text(
-                          "See all categories",
-                          style: GoogleFonts.nunito(),
-                        ),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Menu".toUpperCase(),
+                            style: GoogleFonts.nunito(fontSize: 14),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              debugPrint("Text See all categories btn");
+                              Navigator.of(context).push(PageTransition(
+                                  child: Sc7Categories(),
+                                  type: PageTransitionType.fade));
+                            },
+                            child: Text(
+                              "See all categories",
+                              style: GoogleFonts.nunito(
+                                  fontWeight: FontWeight.bold,
+                                  color: ColorConst.pink),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(
                       height: 260,
                       // width: double.infinity,
                       child: Padding(
-                        padding: const EdgeInsets.all(8.0),
+                        padding: const EdgeInsets.all(10.0),
                         child: ListView.separated(
                             physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
-                              return Row(
-                                children: [
-                                  SizedBox(
-                                    height: 80,
-                                    width: 80,
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.circular(10),
-                                      child: Image.asset(
-                                        ImgAsset.SUSHI,
-                                        fit: BoxFit.cover,
+                              return Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    SizedBox(
+                                      height: 60,
+                                      width: 60,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(10),
+                                        child: Image.asset(
+                                          ImgAsset.SUSHI,
+                                          fit: BoxFit.cover,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 30),
-                                  Column(
-                                    children: [
-                                      Text("data", style: GoogleFonts.nunito()),
-                                      Text("data", style: GoogleFonts.nunito()),
-                                    ],
-                                  )
-                                ],
+                                    const SizedBox(width: 20),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Onion Rings",
+                                            style: GoogleFonts.nunito(
+                                                fontSize: 15,
+                                                fontWeight: FontWeight.bold)),
+                                        Text("\$39.00",
+                                            style: GoogleFonts.nunito()),
+                                      ],
+                                    )
+                                  ],
+                                ),
                               );
                             },
                             separatorBuilder: (context, index) {
@@ -196,60 +262,98 @@ class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
                 width: double.infinity,
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        Text("Menu".toUpperCase()),
-                        Text(
-                          "See all categories",
-                          style: GoogleFonts.nunito(),
-                        ),
-                      ],
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("reviews".toUpperCase()),
+                          InkWell(
+                            onTap: () {
+                              Navigator.of(context).push(PageTransition(
+                                  child: Sc16Reviews(),
+                                  type: PageTransitionType.fade));
+                            },
+                            child: Text(
+                              "See all reviews",
+                              style: GoogleFonts.nunito(
+                                  fontWeight: FontWeight.bold,
+                                  color: ColorConst.pink),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(
-                      height: 200,
+                      height: 250,
                       // width: double.infinity,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ListView.separated(
-                            physics: const NeverScrollableScrollPhysics(),
                             itemBuilder: (context, index) {
                               return Row(
                                 children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.end,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          const SizedBox(
-                                            child: CircleAvatar(
-                                              radius: 30,
-                                              backgroundImage: AssetImage(
-                                                ImgAsset.AVATAR,
-                                              ),
-                                            ),
-                                          ),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            SizedBox(width: 20),
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
-                                                  Text("data",
+                                                  const SizedBox(
+                                                    child: CircleAvatar(
+                                                      radius: 30,
+                                                      backgroundImage:
+                                                          AssetImage(
+                                                        ImgAsset.AVATAR,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Row(
+                                                    children: [
+                                                      Text("Anna Rose",
+                                                          style: GoogleFonts
+                                                              .nunito(
+                                                                  fontSize: 16,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .bold)),
+                                                      SizedBox(
+                                                        width: 20,
+                                                      ),
+                                                      SvgPicture.asset(
+                                                          SvgAsset.IG_STAR),
+                                                      SvgPicture.asset(
+                                                          SvgAsset.IG_STAR),
+                                                      SvgPicture.asset(
+                                                          SvgAsset.IG_STAR),
+                                                      SvgPicture.asset(
+                                                          SvgAsset.IG_STAR),
+                                                      SvgPicture.asset(
+                                                          SvgAsset.IG_STAR),
+                                                    ],
+                                                  ),
+                                                  Text("2 hours",
                                                       style:
                                                           GoogleFonts.nunito()),
-                                                  SvgPicture.asset(
-                                                      SvgAsset.IG_STAR),
+                                                  Text(
+                                                      "We had a chance to try some of the food from the restaurant prepared for the food festival, and the chicken croquettes were simply amazing! We had a chance to try some of the food from the restaurant prepared for the food festival, and the chicken croquettes were simply amazing! We had a chance to try some of the food from the restaurant prepared for the food festival, and the chicken croquettes were simply amazing! We had a chance to try some of the food from the restaurant prepared for the food festival, and the chicken croquettes were simply amazing!",
+                                                      style:
+                                                          GoogleFonts.nunito()),
                                                 ],
                                               ),
-                                              Text("data",
-                                                  style: GoogleFonts.nunito()),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                      Text("data", style: GoogleFonts.nunito()),
-                                    ],
-                                  )
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                 ],
                               );
                             },
@@ -275,6 +379,9 @@ class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
           child: InkWell(
             onTap: () {
               debugPrint("Test book a table");
+              Navigator.of(context).push(PageTransition(
+                  child: Sc9And11BookATable(),
+                  type: PageTransitionType.leftToRight));
             },
             child: Center(
               child: Text(

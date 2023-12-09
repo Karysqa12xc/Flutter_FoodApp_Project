@@ -52,6 +52,7 @@ class CustomAppbar1 extends StatelessWidget implements PreferredSizeWidget {
                                   IconButton(
                                       onPressed: () {
                                         debugPrint("test arrow left");
+                                        Navigator.of(context).pop();
                                       },
                                       icon: SvgPicture.asset(
                                           SvgAsset.IG_ARROWLEFT)),

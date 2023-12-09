@@ -19,10 +19,9 @@ class _Sc16ReviewsState extends State<Sc16Reviews> {
     return Scaffold(
       appBar: CustomAppBar2(
           icons: [
-            SvgPicture.asset(
-              SvgAsset.IG_ARROWLEFT,
-              colorFilter:
-                  const ColorFilter.mode(Colors.white, BlendMode.srcIn),
+            const Icon(
+              Icons.arrow_back,
+              color: Colors.white,
             ),
             const Icon(
               Icons.search,
