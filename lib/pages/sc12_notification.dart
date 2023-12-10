@@ -45,7 +45,7 @@ class _Sc12NotificationState extends State<Sc12Notification> {
                           width: 60,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(6),
-                            child: Image.asset(ImgAsset.HAMBURGER,
+                            child: Image.asset(ImgAsset.Hamburger,
                                 fit: BoxFit.contain),
                           ),
                         ),

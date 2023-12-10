@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_app_example/const/color_const.dart';
-
 import 'package:food_app_example/const/svg_asset.dart';
-import 'package:food_app_example/models/item_food.dart';
+import 'package:food_app_example/models/restaurant.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 
 class GridMain extends StatelessWidget {
-  final List<ItemFood> items;
+  final List<dynamic> items;
 
   GridMain({required this.items});
   @override
@@ -21,6 +20,7 @@ class GridMain extends StatelessWidget {
         ),
         itemCount: items.length,
         itemBuilder: (context, index) {
+          Restaurant restaurantInfo = Restaurant.fromJson(items[index]);
           return InkWell(
             onTap: () {
               print("Test touch card in grid view");
@@ -48,7 +48,7 @@ class GridMain extends StatelessWidget {
                               topLeft: Radius.circular(15),
                               topRight: Radius.circular(15)),
                           child: Image.asset(
-                            items[index].imagePath,
+                            restaurantInfo.imagePath,
                             fit: BoxFit.cover,
                           )),
                     ),
@@ -58,7 +58,7 @@ class GridMain extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            items[index].title,
+                            restaurantInfo.title,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             textAlign: TextAlign.left,
@@ -68,7 +68,7 @@ class GridMain extends StatelessWidget {
                                 color: Colors.black),
                           ),
                           Text(
-                            items[index].description,
+                            restaurantInfo.description,
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: GoogleFonts.nunito(
@@ -88,7 +88,7 @@ class GridMain extends StatelessWidget {
                                 ],
                               ),
                               Text(
-                                items[index].reviews,
+                                restaurantInfo.reviews + " reviews",
                                 style: GoogleFonts.nunito(fontSize: 11),
                               )
                             ],

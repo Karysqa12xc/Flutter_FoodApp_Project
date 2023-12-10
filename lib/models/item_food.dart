@@ -1,14 +1,18 @@
+import 'package:json_annotation/json_annotation.dart';
+part 'item_food.g.dart';
+@JsonSerializable()
 class ItemFood {
-  final String imagePath;
-  final String title;
-  final String description;
-  final String reviews;
+  final String idRestaurant;
+  final String imagePathFood;
+  final String nameFood;
   final String cost;
   ItemFood({
-    required this.imagePath,
-    required this.title,
-    required this.description,
-    required this.reviews,
+    required this.idRestaurant,
+    required this.imagePathFood,
+    required this.nameFood,
     required this.cost,
   });
+  factory ItemFood.fromJson(Map<String, dynamic> json) =>
+      _$ItemFoodFromJson(json);
+  Map<String, dynamic> toJson() => _$ItemFoodToJson(this);
 }

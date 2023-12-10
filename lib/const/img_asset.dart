@@ -1,33 +1,43 @@
 import 'package:food_app_example/const/path_assets.dart';
 
 class ImgAsset {
-  // ignore: constant_identifier_names
-  static const String PANDA_LOGO = "${PathAsset.basePathImg}/img_pandalogo.png";
-  // ignore: constant_identifier_names
-  static const String SHIPPER = "${PathAsset.basePathImg}/img_shipper.png";
-  // ignore: constant_identifier_names
-  static const String BG_LOGIN = "${PathAsset.basePathImg}/img_bg_login.png";
-  // ignore: constant_identifier_names
-  static const String BG_SEARCH = "${PathAsset.basePathImg}/img_bg_search.png";
-  // ignore: constant_identifier_names
-  static const String ICON_FACEBOOK =
+  static const String PandaLogo = "${PathAsset.basePathImg}/img_pandalogo.png";
+
+  static const String Shipper = "${PathAsset.basePathImg}/img_shipper.png";
+
+  static const String BgLogin = "${PathAsset.basePathImg}/img_bg_login.png";
+
+  static const String BgSearch = "${PathAsset.basePathImg}/img_bg_search.png";
+
+  static const String IconFacebook =
       "${PathAsset.basePathImg}/img_facebook.png";
-  // ignore: constant_identifier_names
-  static const String AVATAR = "${PathAsset.basePathImg}/img_avatar.png";
-  // ignore: constant_identifier_names
-  static const String SUSHI = "${PathAsset.basePathImg}/img_sushi.png";
-  // ignore: constant_identifier_names
-  static const String CURRY = "${PathAsset.basePathImg}/img_carry.png";
-  // ignore: constant_identifier_names
-  static const String SPRING_ROLL =
+
+  static const String Avatar = "${PathAsset.basePathImg}/img_avatar.png";
+
+  static const String Sushi = "${PathAsset.basePathImg}/img_sushi.png";
+
+  static const String Curry = "${PathAsset.basePathImg}/img_carry.png";
+
+  static const String SpringRoll =
       "${PathAsset.basePathImg}/img_spring_roll.png";
-  // ignore: constant_identifier_names
-  static const String HAMBURGER = "${PathAsset.basePathImg}/img_hamburger.png";
-  // ignore: constant_identifier_names
-  static const String RECTANGLE = "${PathAsset.basePathImg}/img_rectangle.png";
-  // ignore: constant_identifier_names
-  static const String SUCCESSFULLY =
+
+  static const String Hamburger = "${PathAsset.basePathImg}/img_hamburger.png";
+
+  static const String Rectangle = "${PathAsset.basePathImg}/img_rectangle.png";
+
+  static const String Successfully =
       "${PathAsset.basePathImg}/img_successful.png";
-  // ignore: constant_identifier_names
-  static const String TAKEAWAY = "${PathAsset.basePathImg}/img_takeaway.png";
+
+  static const String TakeAway = "${PathAsset.basePathImg}/img_takeaway.png";
+
+  static const String DogMeat = "${PathAsset.basePathImg}/img_dogmeat.png";
+
+  static const String Pizza = "${PathAsset.basePathImg}/img_pizza.png";
+
+  static const String PizzaChicken =
+      "${PathAsset.basePathImg}/img_pizaa_chicken.png";
+
+  static const String PizzaChay = "${PathAsset.basePathImg}/img_pizza_chay.png";
+
+  static const String ComTam = "${PathAsset.basePathImg}/img_comtam.jpg";
 }

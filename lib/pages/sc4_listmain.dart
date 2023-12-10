@@ -1,103 +1,140 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_app_example/const/color_const.dart';
-
 import 'package:food_app_example/const/svg_asset.dart';
-import 'package:food_app_example/models/item_food.dart';
+import 'package:food_app_example/models/restaurant.dart';
+import 'package:food_app_example/pages/sc6_details_restaurant.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 
-class ListMain extends StatelessWidget {
-  final List<ItemFood> items;
+class ListMain extends StatefulWidget {
+  final List<dynamic> items;
 
   ListMain({required this.items});
+
+  @override
+  _ListMainState createState() => _ListMainState();
+}
+
+class _ListMainState extends State<ListMain> {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void _onItemPressed(Restaurant restaurantInfo) {
+    Navigator.of(context).push(PageTransition(
+        child: Sc6DetailsRestaurant(restaurantInfo: restaurantInfo),
+        type: PageTransitionType.rightToLeft));
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          return InkWell(
-            onTap: () {
-              debugPrint("Test touch card in list view");
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(12.0),
-              child: Container(
-                decoration: BoxDecoration(
-                    color: ColorConst.white,
-                    borderRadius: BorderRadius.circular(15),
-                    boxShadow: [
-                      BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 3,
-                          blurRadius: 10,
-                          offset: const Offset(0, 3))
-                    ]),
-                child: Column(
-                  children: [
-                    Container(
-                      height: 200,
-                      width: double.infinity,
-                      child: ClipRRect(
-                          borderRadius: const BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15)),
-                          child: Image.asset(
-                            items[index].imagePath,
-                            fit: BoxFit.cover,
-                          )),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            items[index].title,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            textAlign: TextAlign.left,
-                            style: GoogleFonts.nunito(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                          ),
-                          const SizedBox(height: 10),
-                          Text(
-                            items[index].description,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            style: GoogleFonts.nunito(
-                                fontSize: 11, color: ColorConst.greyBold),
-                          ),
-                          const SizedBox(height: 15),
-                          Row(
-                            children: [
-                              Row(
-                                children: [
-                                  SvgPicture.asset(SvgAsset.IG_STAR),
-                                  SvgPicture.asset(SvgAsset.IG_STAR),
-                                  SvgPicture.asset(SvgAsset.IG_STAR),
-                                  SvgPicture.asset(SvgAsset.IG_STAR),
-                                  SvgPicture.asset(SvgAsset.IG_STAR,
-                                      colorFilter: const ColorFilter.mode(
-                                          ColorConst.grey, BlendMode.srcIn)),
-                                ],
-                              ),
-                              SizedBox(width: 10),
-                              Text(
-                                items[index].reviews,
-                                style: GoogleFonts.nunito(fontSize: 11),
-                              )
-                            ],
-                          )
-                        ],
+      itemCount: widget.items.length,
+      itemBuilder: (context, index) {
+        Restaurant restaurantInfo = Restaurant.fromJson(widget.items[index]);
+
+        return InkWell(
+          onDoubleTap: () {
+            debugPrint("Test double touch card in list view");
+            setState(() {
+              
+            });
+          },
+          onTap: () {
+            debugPrint("Test touch card in list view");
+            _onItemPressed(restaurantInfo);
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: ColorConst.white,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.3),
+                    spreadRadius: 3,
+                    blurRadius: 10,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Container(
+                    height: 200,
+                    width: double.infinity,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15),
+                      ),
+                      child: Image.asset(
+                        restaurantInfo.imagePath,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          restaurantInfo.title,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          textAlign: TextAlign.left,
+                          style: GoogleFonts.nunito(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Text(
+                          restaurantInfo.description,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: GoogleFonts.nunito(
+                            fontSize: 11,
+                            color: ColorConst.greyBold,
+                          ),
+                        ),
+                        const SizedBox(height: 15),
+                        Row(
+                          children: [
+                            Row(
+                              children: List.generate(
+                                5,
+                                (starIndex) => SvgPicture.asset(
+                                  SvgAsset.IG_STAR,
+                                  colorFilter: ColorFilter.mode(
+                                      starIndex < 4
+                                          ? Colors.pink
+                                          : ColorConst.grey,
+                                      BlendMode.srcIn),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            Text(
+                              restaurantInfo.reviews + " reviews",
+                              style: GoogleFonts.nunito(fontSize: 11),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }

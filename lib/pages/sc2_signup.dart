@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app_example/const/color_const.dart';
 import 'package:food_app_example/const/img_asset.dart';
+import 'package:food_app_example/models/user.dart';
 import 'package:food_app_example/pages/sc2_login.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
@@ -18,20 +20,25 @@ class _Sc2SignupState extends State<Sc2Signup> {
   TextEditingController _passwordController = TextEditingController();
   TextEditingController _passwordControllerConfirm = TextEditingController();
   TextEditingController _userEmailController = TextEditingController();
-
+  TextEditingController _userNameController = TextEditingController();
   FocusNode focusNodePassword = FocusNode();
   FocusNode focusNodeEmail = FocusNode();
   FocusNode focusNodePasswordConfirm = FocusNode();
+  FocusNode focusNodeUserName = FocusNode();
 
-  bool isDisplayKeyboard = true;
+  bool isDisplayKeyboard = false;
   final GlobalKey<FormState> _fromKey = GlobalKey<FormState>();
 
   List<bool> _isObscured = List.filled(2, false);
   bool isEmailCorrect = false;
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
+    focusNodeUserName.addListener(() {
+      setState(() {
+        isDisplayKeyboard = focusNodeUserName.hasFocus;
+      });
+    });
     focusNodePassword.addListener(() {
       setState(() {
         isDisplayKeyboard = focusNodePassword.hasFocus;
@@ -51,11 +58,11 @@ class _Sc2SignupState extends State<Sc2Signup> {
 
   @override
   void dispose() {
+    _userNameController.dispose();
     _userEmailController.dispose();
     _passwordController.dispose();
     _passwordControllerConfirm.dispose();
     focusNodePassword.dispose();
-    // TODO: implement dispose
     super.dispose();
   }
 
@@ -68,7 +75,7 @@ class _Sc2SignupState extends State<Sc2Signup> {
           width: double.infinity,
           decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage(ImgAsset.BG_LOGIN), fit: BoxFit.cover),
+                image: AssetImage(ImgAsset.BgLogin), fit: BoxFit.cover),
           ),
           child: Container(
             height: double.infinity,
@@ -82,7 +89,7 @@ class _Sc2SignupState extends State<Sc2Signup> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 30),
-                    child: Image.asset(ImgAsset.PANDA_LOGO),
+                    child: Image.asset(ImgAsset.PandaLogo),
                   ),
                   Center(
                     child: Padding(
@@ -92,6 +99,28 @@ class _Sc2SignupState extends State<Sc2Signup> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
+                            TextFormField(
+                              focusNode: focusNodeUserName,
+                              controller: _userNameController,
+                              style: GoogleFonts.nunitoSans(
+                                  fontSize: 16, color: Colors.white),
+                              validator: (value) {
+                                if (_userNameController.text.isEmpty) {
+                                  return "Please enter your username";
+                                }
+                                return null;
+                              },
+                              decoration: const InputDecoration(
+                                  hintText: "UserName",
+                                  hintStyle: TextStyle(
+                                      color: Colors.white, fontSize: 16),
+                                  enabledBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white)),
+                                  focusedBorder: UnderlineInputBorder(
+                                      borderSide:
+                                          BorderSide(color: Colors.white70))),
+                            ),
                             TextFormField(
                               focusNode: focusNodeEmail,
                               controller: _userEmailController,
@@ -148,8 +177,8 @@ class _Sc2SignupState extends State<Sc2Signup> {
                                                 : Icons.visibility_off,
                                             color: Colors.white)
                                         : const Visibility(
-                                            visible: true,
-                                            child: Icon(Icons.visibility)),
+                                            visible: false,
+                                            child: Icon(Icons.visibility_off)),
                                     onPressed: () {
                                       setState(() {
                                         _isObscured[0] = !_isObscured[0];
@@ -191,7 +220,7 @@ class _Sc2SignupState extends State<Sc2Signup> {
                                                 : Icons.visibility_off,
                                             color: Colors.white)
                                         : const Visibility(
-                                            visible: true,
+                                            visible: false,
                                             child: Icon(Icons.visibility)),
                                     onPressed: () {
                                       setState(() {
@@ -210,14 +239,36 @@ class _Sc2SignupState extends State<Sc2Signup> {
                             ),
                             const SizedBox(height: 30),
                             InkWell(
-                              onTap: () {
+                              onTap: () async {
                                 debugPrint("Test Sign up");
                                 if (_fromKey.currentState!.validate()) {
-                                  FirebaseAuth.instance
+                                  await FirebaseAuth.instance
                                       .createUserWithEmailAndPassword(
                                           email: _userEmailController.text,
                                           password: _passwordController.text)
-                                      .then((value) {
+                                      .then((value) async {
+                                    try {
+                                      String uid = value.user!.uid;
+                                      debugPrint(uid);
+                                      UserAccount newUser = UserAccount(
+                                          userUid: uid,
+                                          displayName: _userNameController.text,
+                                          email: _userEmailController.text,
+                                          password: _passwordController.text,
+                                          imgUrl: '');
+                                      value.user!.updateDisplayName(
+                                          _userNameController.text);
+                                      Map<String, dynamic> userJson =
+                                          newUser.toJson();
+                                      await FirebaseFirestore.instance
+                                          .collection("user")
+                                          .doc(uid)
+                                          .set({
+                                        'userData': userJson,
+                                      });
+                                    } catch (e) {
+                                      debugPrint(e.toString());
+                                    }
                                     showDialog(
                                       barrierDismissible: false,
                                       context: context,

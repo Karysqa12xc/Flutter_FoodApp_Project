@@ -21,7 +21,7 @@ class Sc7Main extends StatelessWidget {
                   child: SizedBox(
                       height: 60,
                       width: 60,
-                      child: Image.asset(ImgAsset.HAMBURGER)),
+                      child: Image.asset(ImgAsset.Hamburger)),
                 )),
                 Expanded(
                     child: Column(

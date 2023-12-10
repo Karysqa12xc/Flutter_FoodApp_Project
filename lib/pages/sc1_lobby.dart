@@ -43,12 +43,12 @@ class _Sc1LobbyState extends State<Sc1Lobby> {
                     borderRadius:
                         BorderRadius.only(bottomLeft: Radius.circular(100.0))),
                 child: Center(
-                  child: Image.asset(ImgAsset.PANDA_LOGO),
+                  child: Image.asset(ImgAsset.PandaLogo),
                 ),
               ),
             ),
             Expanded(
-              child: Image.asset(ImgAsset.SHIPPER),
+              child: Image.asset(ImgAsset.Shipper),
             )
           ],
         ),

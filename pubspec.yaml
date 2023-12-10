@@ -49,12 +49,16 @@ dependencies:
   cloud_firestore: ^4.13.5
   flutter_login_facebook: ^1.9.0
   email_validator: '^2.1.16'
+  json_serializable: ^6.7.1
+  cached_network_image: ^3.2.3
+  uuid: ^4.2.1
   
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.13.1
+  build_runner: ^2.4.6
 
 flutter_icons:
   image_path: "assets/images/img_shipper.png"

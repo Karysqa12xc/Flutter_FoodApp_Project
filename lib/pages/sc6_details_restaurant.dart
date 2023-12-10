@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_app_example/const/color_const.dart';
 import 'package:food_app_example/const/img_asset.dart';
 import 'package:food_app_example/const/svg_asset.dart';
+import 'package:food_app_example/models/item_food.dart';
+import 'package:food_app_example/models/restaurant.dart';
 import 'package:food_app_example/pages/sc16_reviews.dart';
 import 'package:food_app_example/pages/sc7_categories.dart';
 import 'package:food_app_example/pages/sc9_and_11_book_a_table.dart';
@@ -10,13 +13,24 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
 class Sc6DetailsRestaurant extends StatefulWidget {
-  const Sc6DetailsRestaurant({Key? key}) : super(key: key);
+  final Restaurant restaurantInfo;
+  const Sc6DetailsRestaurant({Key? key, required this.restaurantInfo})
+      : super(key: key);
 
   @override
   _Sc6DetailsRestaurantState createState() => _Sc6DetailsRestaurantState();
 }
 
 class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
+  late Restaurant _currentRestaurantInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    // Lưu trữ giá trị từ widget vào biến _currentRestaurantInfo
+    _currentRestaurantInfo = widget.restaurantInfo;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +43,7 @@ class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
               width: double.infinity,
               child: ClipRRect(
                 child: Image.asset(
-                  ImgAsset.CURRY,
+                  _currentRestaurantInfo.imagePath,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -42,7 +56,7 @@ class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Thịt bò sốt vang của người Ý",
+                      _currentRestaurantInfo.title,
                       style: GoogleFonts.nunito(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
@@ -50,7 +64,7 @@ class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
                       ),
                     ),
                     Text(
-                      "Ngon hơn khi để nguội",
+                      _currentRestaurantInfo.description,
                       style: GoogleFonts.nunito(
                           fontSize: 13,
                           fontWeight: FontWeight.w700,
@@ -59,16 +73,20 @@ class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SvgPicture.asset(SvgAsset.IG_STAR),
-                        SvgPicture.asset(SvgAsset.IG_STAR),
-                        SvgPicture.asset(SvgAsset.IG_STAR),
-                        SvgPicture.asset(SvgAsset.IG_STAR),
-                        SvgPicture.asset(SvgAsset.IG_STAR,
-                            colorFilter: ColorFilter.mode(
-                                ColorConst.grey, BlendMode.srcIn)),
+                        Row(
+                          children: List.generate(
+                            5,
+                            (starIndex) => SvgPicture.asset(
+                              SvgAsset.IG_STAR,
+                              colorFilter: ColorFilter.mode(
+                                  starIndex < 4 ? Colors.pink : ColorConst.grey,
+                                  BlendMode.srcIn),
+                            ),
+                          ),
+                        ),
                         SizedBox(width: 10),
                         Text(
-                          "289 reviews",
+                          _currentRestaurantInfo.reviews + " reviews",
                           style: GoogleFonts.nunito(
                               fontSize: 11,
                               fontWeight: FontWeight.w400,
@@ -141,7 +159,7 @@ class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(6),
                                   child: Image.asset(
-                                    ImgAsset.CURRY,
+                                    _currentRestaurantInfo.imagePath,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -177,85 +195,114 @@ class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
             Container(
                 color: ColorConst.white,
                 width: double.infinity,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(10.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "Menu".toUpperCase(),
-                            style: GoogleFonts.nunito(fontSize: 14),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              debugPrint("Text See all categories btn");
-                              Navigator.of(context).push(PageTransition(
-                                  child: Sc7Categories(),
-                                  type: PageTransitionType.fade));
-                            },
-                            child: Text(
-                              "See all categories",
-                              style: GoogleFonts.nunito(
-                                  fontWeight: FontWeight.bold,
-                                  color: ColorConst.pink),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 260,
-                      // width: double.infinity,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10.0),
-                        child: ListView.separated(
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: [
-                                    SizedBox(
-                                      height: 60,
-                                      width: 60,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.asset(
-                                          ImgAsset.SUSHI,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
+                child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection("foods")
+                        .doc("1vMa2c2U3pj4YNlRBXuJ")
+                        .snapshots(),
+                    builder:
+                        (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text("Error: ${snapshot.error}");
+                      } else if (!snapshot.hasData || !snapshot.data!.exists) {
+                        return Text("Không có dữ liệu");
+                      } else {
+                        List<dynamic> foodsData = snapshot.data!['foods'];
+                        return Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Menu".toUpperCase(),
+                                    style: GoogleFonts.nunito(fontSize: 14),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      debugPrint("Text See all categories btn");
+                                      Navigator.of(context).push(PageTransition(
+                                          child: Sc7Categories(),
+                                          type: PageTransitionType.fade));
+                                    },
+                                    child: Text(
+                                      "See all categories",
+                                      style: GoogleFonts.nunito(
+                                          fontWeight: FontWeight.bold,
+                                          color: ColorConst.pink),
                                     ),
-                                    const SizedBox(width: 20),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text("Onion Rings",
-                                            style: GoogleFonts.nunito(
-                                                fontSize: 15,
-                                                fontWeight: FontWeight.bold)),
-                                        Text("\$39.00",
-                                            style: GoogleFonts.nunito()),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return Container(
-                                height: 1,
-                                color: ColorConst.grey,
-                              );
-                            },
-                            itemCount: 3),
-                      ),
-                    ),
-                  ],
-                )),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            SizedBox(
+                              height: 260,
+                              // width: double.infinity,
+                              child: Padding(
+                                padding: const EdgeInsets.all(10.0),
+                                child: ListView.separated(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) {
+                                      ItemFood foods =
+                                          ItemFood.fromJson(foodsData[index]);
+                                      if (foods.idRestaurant ==
+                                          _currentRestaurantInfo.id) {
+                                        return Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Row(
+                                            children: [
+                                              SizedBox(
+                                                height: 60,
+                                                width: 60,
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  child: Image.asset(
+                                                    foods.imagePathFood,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(width: 20),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(foods.nameFood,
+                                                      style: GoogleFonts.nunito(
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.bold)),
+                                                  Text("\$" + foods.cost,
+                                                      style:
+                                                          GoogleFonts.nunito()),
+                                                ],
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                    },
+                                    separatorBuilder: (context, index) {
+                                      return Container(
+                                        height: 1,
+                                        color: ColorConst.grey,
+                                      );
+                                    },
+                                    itemCount: 3),
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                    })),
             const SizedBox(height: 10),
             Container(
                 color: ColorConst.white,
@@ -311,7 +358,7 @@ class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
                                                       radius: 30,
                                                       backgroundImage:
                                                           AssetImage(
-                                                        ImgAsset.AVATAR,
+                                                        ImgAsset.Avatar,
                                                       ),
                                                     ),
                                                   ),
@@ -380,8 +427,10 @@ class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
             onTap: () {
               debugPrint("Test book a table");
               Navigator.of(context).push(PageTransition(
-                  child: Sc9And11BookATable(),
-                  type: PageTransitionType.leftToRight));
+                  child: Sc9And11BookATable(
+                    restaurantInfo: _currentRestaurantInfo,
+                  ),
+                  type: PageTransitionType.rightToLeft));
             },
             child: Center(
               child: Text(

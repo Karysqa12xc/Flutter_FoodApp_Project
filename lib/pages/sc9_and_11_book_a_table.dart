@@ -1,58 +1,65 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_app_example/const/color_const.dart';
 import 'package:food_app_example/const/img_asset.dart';
 import 'package:food_app_example/const/svg_asset.dart';
 import 'package:food_app_example/models/item_food.dart';
+import 'package:food_app_example/models/restaurant.dart';
 import 'package:food_app_example/pages/sc_home.dart';
 
 import 'package:food_app_example/widgets/custom_appbar3.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:uuid/uuid.dart';
 
 class Sc9And11BookATable extends StatefulWidget {
-  const Sc9And11BookATable({Key? key}) : super(key: key);
+  final Restaurant restaurantInfo;
+  const Sc9And11BookATable({Key? key, required this.restaurantInfo})
+      : super(key: key);
 
   @override
   _Sc9And11BookATableState createState() => _Sc9And11BookATableState();
 }
 
 class _Sc9And11BookATableState extends State<Sc9And11BookATable> {
-  final List<ItemFood> items = [
-    ItemFood(
-        imagePath: ImgAsset.SUSHI,
-        title: "Tuna Sushi Platter (3 Types)",
-        description:
-            "Sushi Platter | Tuna (2 pcs), Semi-fatty Tuna (2 pcs).\nPrime Fatty Tuna(2pcs)",
-        reviews: "298 reviews",
-        cost: '10'),
-    ItemFood(
-        imagePath: ImgAsset.CURRY,
-        title: "Carry 7 màu",
-        description: "Lipie, carne pui, cartofi pai,\nsosuri, salata - 700g",
-        reviews: "298 reviews",
-        cost: '20'),
-    ItemFood(
-        imagePath: ImgAsset.SPRING_ROLL,
-        title: "Nem 5 chiếc",
-        description: "Đồ ăn siêu ngon dành cho người không muốn ăn kiêng",
-        reviews: "298 reviews",
-        cost: '30'),
-    ItemFood(
-        imagePath: ImgAsset.HAMBURGER,
-        title: "Bánh kẹp thịt",
-        description:
-            "Đồ ăn cho người béo rất tốt cho sức khoẻ nếu ăn trên 10 chiếc, ngon hơn khi không có rau",
-        reviews: "298 reviews",
-        cost: '50'),
-    ItemFood(
-        imagePath: ImgAsset.CURRY,
-        title: "Carry",
-        description: "Lipie, carne pui, cartofi pai,\nsosuri, salata - 700g",
-        reviews: "298 reviews",
-        cost: '60'),
-  ];
+  final Restaurant items = Restaurant(
+      id: Uuid().v4(),
+      imagePath: ImgAsset.Curry,
+      title: "Đồ ăn tốt cho sức khoẻ",
+      description: "Ngon vãi cả lồn",
+      reviews: "298",
+      isFavorite: false);
+  List<ItemFood> food() {
+    return [
+      ItemFood(
+          idRestaurant: items.id,
+          imagePathFood: ImgAsset.DogMeat,
+          nameFood: "Thịt chó",
+          cost: "50"),
+      ItemFood(
+          idRestaurant: items.id,
+          imagePathFood: ImgAsset.Curry,
+          nameFood: "Cà ri",
+          cost: "30"),
+      ItemFood(
+          idRestaurant: items.id,
+          imagePathFood: ImgAsset.Hamburger,
+          nameFood: "Bánh mỳ kẹp thịt",
+          cost: "50"),
+    ];
+  }
+
+  late Restaurant _currentRestaurantInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    // Lưu trữ giá trị từ widget vào biến _currentRestaurantInfo
+    _currentRestaurantInfo = widget.restaurantInfo;
+  }
+
   final List<String> _list = [
     '2 Adults, 3 children',
     '1 Adults',
@@ -66,9 +73,10 @@ class _Sc9And11BookATableState extends State<Sc9And11BookATable> {
   bool isTenItem = false;
   double totalCost = 0;
   late String funStr = "View more";
-  void loadMoreItem() {
+  final GlobalKey<FormState> _listKey = GlobalKey<FormState>();
+  void loadMoreItem(int fullLength) {
     setState(() {
-      _visibleCountItem = items.length;
+      _visibleCountItem = food().length;
       funStr = "Short Item";
       isTenItem = true;
     });
@@ -90,7 +98,7 @@ class _Sc9And11BookATableState extends State<Sc9And11BookATable> {
         child: Column(
           children: [
             Container(
-              height: 130,
+              height: 150,
               width: double.infinity,
               decoration: BoxDecoration(color: Colors.white, boxShadow: [
                 BoxShadow(
@@ -123,13 +131,22 @@ class _Sc9And11BookATableState extends State<Sc9And11BookATable> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CustomDropdown<String>(
-                                hintText: 'Select Your Options',
-                                items: _list,
-                                maxlines: 1,
-                                onChanged: (value) {
-                                  debugPrint(value);
-                                },
+                              Form(
+                                key: _listKey,
+                                child: CustomDropdown<String>(
+                                  hintText: 'Select Your Options',
+                                  items: _list,
+                                  maxlines: 1,
+                                  validator: (p0) {
+                                    if (p0 == null) {
+                                      return "Hãy chọn khẩu phần";
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: (value) {
+                                    debugPrint(value);
+                                  },
+                                ),
                               )
                             ],
                           ),
@@ -149,125 +166,162 @@ class _Sc9And11BookATableState extends State<Sc9And11BookATable> {
                   BoxShadow(
                       color: ColorConst.grey.withOpacity(0.4), blurRadius: 5)
                 ]),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            "MENU",
-                            style: GoogleFonts.nunito(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: ColorConst.greyBold),
-                          ),
-                          InkWell(
-                            onTap: () {
-                              if (isTenItem) {
-                                shortedItem();
-                              } else {
-                                loadMoreItem();
-                              }
-                            },
-                            child: Text(
-                              funStr,
-                              style: GoogleFonts.nunito(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 14,
-                                  color: ColorConst.pink),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Expanded(
-                      child: ListView.separated(
-                        itemCount: _visibleCountItem,
-                        itemBuilder: (context, index) {
-                          return Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      height: 50,
-                                      width: 50,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.asset(
-                                          items[index].imagePath,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                    ),
-                                    const SizedBox(width: 10),
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          items[index].title,
-                                          style: GoogleFonts.nunito(
-                                              fontSize: 15,
-                                              fontWeight: FontWeight.w700),
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                        ),
-                                        Text(
-                                          "\$" "${items[index].cost}",
-                                          style:
-                                              GoogleFonts.nunito(fontSize: 11),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      if (selectedItems.contains(index)) {
-                                        selectedItems.remove(index);
-                                        totalCost -=
-                                            double.parse(items[index].cost);
+                child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection("foods")
+                        .doc("1vMa2c2U3pj4YNlRBXuJ")
+                        .snapshots(),
+                    builder:
+                        (context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      } else if (snapshot.hasError) {
+                        return Text("Error: ${snapshot.error}");
+                      } else if (!snapshot.hasData || !snapshot.data!.exists) {
+                        return Text("Không có dữ liệu");
+                      } else {
+                        List<dynamic> foodsData = snapshot.data!['foods'];
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "MENU",
+                                    style: GoogleFonts.nunito(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.bold,
+                                        color: ColorConst.greyBold),
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      if (isTenItem) {
+                                        shortedItem();
                                       } else {
-                                        selectedItems.add(index);
-                                        totalCost +=
-                                            double.parse(items[index].cost);
+                                        loadMoreItem(foodsData.length);
                                       }
-                                    });
-                                  },
-                                  child: selectedItems.contains(index)
-                                      ? const CircleAvatar(
-                                          backgroundColor: ColorConst.pink,
-                                          child: Icon(Icons.check,
-                                              color: ColorConst.white),
-                                        )
-                                      : const CircleAvatar(
-                                          backgroundColor: ColorConst.grey,
-                                          child: Icon(Icons.check,
-                                              color: ColorConst.black),
-                                        ),
-                                )
-                              ],
+                                    },
+                                    child: Text(
+                                      funStr,
+                                      style: GoogleFonts.nunito(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 14,
+                                          color: ColorConst.pink),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                          );
-                        },
-                        separatorBuilder: (BuildContext context, int index) {
-                          return Container(
-                            height: 1,
-                            color: ColorConst.grey.withOpacity(0.2),
-                          );
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                            Expanded(
+                              child: ListView.separated(
+                                itemCount: _visibleCountItem,
+                                itemBuilder: (context, index) {
+                                  ItemFood foods =
+                                      ItemFood.fromJson(foodsData[index]);
+                                  if (foods.idRestaurant ==
+                                      _currentRestaurantInfo.id) {
+                                    return Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                height: 50,
+                                                width: 50,
+                                                child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  child: Image.asset(
+                                                    foods.imagePathFood,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                ),
+                                              ),
+                                              const SizedBox(width: 10),
+                                              Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    foods.nameFood,
+                                                    style: GoogleFonts.nunito(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.w700),
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    maxLines: 1,
+                                                  ),
+                                                  Text(
+                                                    "\$"
+                                                    "${foods.cost}",
+                                                    style: GoogleFonts.nunito(
+                                                        fontSize: 11),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          InkWell(
+                                            onTap: () {
+                                              setState(() {
+                                                if (selectedItems
+                                                    .contains(index)) {
+                                                  selectedItems.remove(index);
+                                                  totalCost -=
+                                                      double.parse(foods.cost);
+                                                } else {
+                                                  selectedItems.add(index);
+                                                  totalCost +=
+                                                      double.parse(foods.cost);
+                                                }
+                                              });
+                                            },
+                                            child: selectedItems.contains(index)
+                                                ? const CircleAvatar(
+                                                    backgroundColor:
+                                                        ColorConst.pink,
+                                                    child: Icon(Icons.check,
+                                                        color:
+                                                            ColorConst.white),
+                                                  )
+                                                : const CircleAvatar(
+                                                    backgroundColor:
+                                                        ColorConst.grey,
+                                                    child: Icon(Icons.check,
+                                                        color:
+                                                            ColorConst.black),
+                                                  ),
+                                          )
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                  return null;
+                                },
+                                separatorBuilder:
+                                    (BuildContext context, int index) {
+                                  return Container(
+                                    height: 1,
+                                    color: ColorConst.grey.withOpacity(0.2),
+                                  );
+                                },
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                    }),
               ),
             )
           ],
@@ -291,7 +345,7 @@ class _Sc9And11BookATableState extends State<Sc9And11BookATable> {
               SizedBox(
                 height: double.infinity,
                 child: InkWell(
-                  onTap: totalCost > 0
+                  onTap: (totalCost > 0 && (_listKey.currentState!.validate()))
                       ? () {
                           debugPrint("Test order button");
                           showDialog(
@@ -304,7 +358,7 @@ class _Sc9And11BookATableState extends State<Sc9And11BookATable> {
                                       horizontal: 35, vertical: 70),
                                   content: Column(
                                     children: [
-                                      Image.asset(ImgAsset.TAKEAWAY),
+                                      Image.asset(ImgAsset.TakeAway),
                                       Text("Thank You",
                                           style: GoogleFonts.nunito(
                                               fontSize: 36,

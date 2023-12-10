@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app_example/const/color_const.dart';
 import 'package:food_app_example/const/img_asset.dart';
 import 'package:food_app_example/pages/sc4_search_result.dart';
-
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -15,12 +15,14 @@ class Sc3Search extends StatefulWidget {
 
 class _Sc3SearchState extends State<Sc3Search> {
   TextEditingController _controller = TextEditingController();
-  int _selectedIndex = 0;
-  void _navigateBottomBar(int index) {
-    setState(() {
-      _selectedIndex = index;
-      print(_selectedIndex);
-    });
+  final currentUser = FirebaseAuth.instance.currentUser;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    debugPrint(currentUser?.displayName);
+    debugPrint(currentUser?.email);
+    debugPrint(currentUser?.uid);
   }
 
   @override
@@ -32,7 +34,7 @@ class _Sc3SearchState extends State<Sc3Search> {
           width: double.infinity,
           decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage(ImgAsset.BG_SEARCH), fit: BoxFit.cover),
+                image: AssetImage(ImgAsset.BgSearch), fit: BoxFit.cover),
           ),
           child: Container(
             height: double.infinity,
@@ -56,13 +58,13 @@ class _Sc3SearchState extends State<Sc3Search> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(100),
                               image: const DecorationImage(
-                                  image: AssetImage(ImgAsset.AVATAR),
+                                  image: AssetImage(ImgAsset.Avatar),
                                   fit: BoxFit.cover)),
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 20),
                           child: Text(
-                            "Hi, Rose",
+                            "Hi, ${currentUser?.displayName}",
                             style: GoogleFonts.robotoFlex(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w500,

@@ -48,7 +48,7 @@ class _Sc16ReviewsState extends State<Sc16Reviews> {
                           children: [
                             const CircleAvatar(
                               radius: 20,
-                              backgroundImage: AssetImage(ImgAsset.AVATAR),
+                              backgroundImage: AssetImage(ImgAsset.Avatar),
                             ),
                             const SizedBox(width: 10),
                             Expanded(

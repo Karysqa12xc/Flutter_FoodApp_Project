@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_app_example/const/color_const.dart';
@@ -17,6 +18,7 @@ class Sc8Profile extends StatefulWidget {
 
 class _Sc8ProfileState extends State<Sc8Profile> {
   final PageController controller = PageController();
+  final currentUser = FirebaseAuth.instance.currentUser;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +28,7 @@ class _Sc8ProfileState extends State<Sc8Profile> {
           Container(
             decoration: const BoxDecoration(
                 image: DecorationImage(
-                    image: AssetImage(ImgAsset.RECTANGLE),
+                    image: AssetImage(ImgAsset.Rectangle),
                     fit: BoxFit.cover,
                     colorFilter:
                         ColorFilter.mode(ColorConst.pink, BlendMode.modulate))),
@@ -58,7 +60,7 @@ class _Sc8ProfileState extends State<Sc8Profile> {
                               onTap: () {},
                               child: const CircleAvatar(
                                 radius: 30,
-                                backgroundImage: AssetImage(ImgAsset.AVATAR),
+                                backgroundImage: AssetImage(ImgAsset.Avatar),
                               ),
                             ),
                           ),
@@ -66,14 +68,14 @@ class _Sc8ProfileState extends State<Sc8Profile> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Erik Walters",
+                                "${currentUser!.displayName}",
                                 style: GoogleFonts.nunito(
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white,
                                     fontSize: 24),
                               ),
                               Text(
-                                "0383 zendar park",
+                                "${currentUser!.email}",
                                 style: GoogleFonts.nunito(
                                     color: Colors.white, fontSize: 18),
                               ),

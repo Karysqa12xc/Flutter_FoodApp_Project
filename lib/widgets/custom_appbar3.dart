@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_app_example/const/color_const.dart';
 import 'package:food_app_example/const/svg_asset.dart';
+import 'package:food_app_example/models/restaurant.dart';
 import 'package:food_app_example/pages/sc6_details_restaurant.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
@@ -31,6 +32,13 @@ class _CustomAppbar3State extends State<CustomAppbar3> {
     const TimeOfDay(hour: 16, minute: 30),
     const TimeOfDay(hour: 17, minute: 30),
   ];
+  Restaurant? _restaurantInfo;
+  void setRestaurantInfo(Restaurant restaurantInfo) {
+    setState(() {
+      _restaurantInfo = restaurantInfo;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -45,9 +53,7 @@ class _CustomAppbar3State extends State<CustomAppbar3> {
               children: [
                 IconButton(
                     onPressed: () {
-                      Navigator.of(context).pushReplacement(PageTransition(
-                          child: Sc6DetailsRestaurant(),
-                          type: PageTransitionType.leftToRight));
+                      Navigator.of(context).pop();
                     },
                     icon: SvgPicture.asset(
                       SvgAsset.IG_PLUS,

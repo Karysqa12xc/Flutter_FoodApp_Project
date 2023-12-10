@@ -22,7 +22,7 @@ class _Sc2LoginState extends State<Sc2Login> {
   TextEditingController _userEmailController = TextEditingController();
   FocusNode focusNodeUser = FocusNode();
   FocusNode focusNodePassword = FocusNode();
-  bool isDisplayKeyboard = true;
+  bool isDisplayKeyboard = false;
   bool isEmailCorrect = false;
   bool _isObscured = false;
 
@@ -62,7 +62,7 @@ class _Sc2LoginState extends State<Sc2Login> {
           width: double.infinity,
           decoration: const BoxDecoration(
             image: DecorationImage(
-                image: AssetImage(ImgAsset.BG_LOGIN), fit: BoxFit.cover),
+                image: AssetImage(ImgAsset.BgLogin), fit: BoxFit.cover),
           ),
           child: Container(
             height: double.infinity,
@@ -76,7 +76,7 @@ class _Sc2LoginState extends State<Sc2Login> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 30),
-                    child: Image.asset(ImgAsset.PANDA_LOGO),
+                    child: Image.asset(ImgAsset.PandaLogo),
                   ),
                   Center(
                     child: Padding(
@@ -258,7 +258,7 @@ class _Sc2LoginState extends State<Sc2Login> {
                                                 MainAxisAlignment.center,
                                             children: [
                                               Image.asset(
-                                                  ImgAsset.ICON_FACEBOOK),
+                                                  ImgAsset.IconFacebook),
                                               Text("CONNECT WITH FACEBOOK",
                                                   style: GoogleFonts.nunito(
                                                       color: Colors.white,

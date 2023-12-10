@@ -64,7 +64,7 @@ class _Sc15OrderHistoryState extends State<Sc15OrderHistory> {
                               child: ClipRRect(
                                   borderRadius: BorderRadius.circular(5),
                                   child: Image.asset(
-                                    ImgAsset.SPRING_ROLL,
+                                    ImgAsset.SpringRoll,
                                     fit: BoxFit.contain,
                                   )),
                             ),

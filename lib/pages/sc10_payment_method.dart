@@ -205,7 +205,7 @@ class _Sc10PaymentMethodState extends State<Sc10PaymentMethod> {
           Align(
               alignment: Alignment.bottomCenter,
               child: Image.asset(
-                ImgAsset.SUCCESSFULLY,
+                ImgAsset.Successfully,
                 width: 280,
               )),
         ],
