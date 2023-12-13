@@ -143,8 +143,8 @@ class _Sc2LoginState extends State<Sc2Login> {
                                                 : Icons.visibility_off,
                                             color: Colors.white)
                                         : const Visibility(
-                                            visible: true,
-                                            child: Icon(Icons.visibility)),
+                                            visible: false,
+                                            child: Icon(Icons.visibility_off)),
                                     onPressed: () {
                                       setState(() {
                                         _isObscured = !_isObscured;

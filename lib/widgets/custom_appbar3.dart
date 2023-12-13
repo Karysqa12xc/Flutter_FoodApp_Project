@@ -1,16 +1,18 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_app_example/const/color_const.dart';
 import 'package:food_app_example/const/svg_asset.dart';
-import 'package:food_app_example/models/restaurant.dart';
-import 'package:food_app_example/pages/sc6_details_restaurant.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:weekly_date_picker/weekly_date_picker.dart';
 
 class CustomAppbar3 extends StatefulWidget implements PreferredSizeWidget {
-  const CustomAppbar3({Key? key}) : super(key: key);
+  final Function(DateTime) onSetDateTimeOrder;
+  final Function(String) onSetTimeOrder;
+  const CustomAppbar3(
+      {Key? key,
+      required this.onSetDateTimeOrder,
+      required this.onSetTimeOrder})
+      : super(key: key);
 
   @override
   _CustomAppbar3State createState() => _CustomAppbar3State();
@@ -21,7 +23,9 @@ class CustomAppbar3 extends StatefulWidget implements PreferredSizeWidget {
 
 class _CustomAppbar3State extends State<CustomAppbar3> {
   DateTime _selectedDay = DateTime.now();
+
   int? _currentSelectTime = 0;
+
   final List<TimeOfDay> _listTime = [
     const TimeOfDay(hour: 8, minute: 30),
     const TimeOfDay(hour: 9, minute: 30),
@@ -32,13 +36,12 @@ class _CustomAppbar3State extends State<CustomAppbar3> {
     const TimeOfDay(hour: 16, minute: 30),
     const TimeOfDay(hour: 17, minute: 30),
   ];
-  Restaurant? _restaurantInfo;
-  void setRestaurantInfo(Restaurant restaurantInfo) {
-    setState(() {
-      _restaurantInfo = restaurantInfo;
-    });
-  }
-
+  // Restaurant? _restaurantInfo;
+  // void setRestaurantInfo(Restaurant restaurantInfo) {
+  //   setState(() {
+  //     _restaurantInfo = restaurantInfo;
+  //   });
+  // }
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -82,6 +85,7 @@ class _CustomAppbar3State extends State<CustomAppbar3> {
                 selectedDay: _selectedDay,
                 changeDay: (value) => setState(() {
                   _selectedDay = value;
+                  widget.onSetDateTimeOrder(_selectedDay);
                 }),
                 enableWeeknumberText: false,
                 backgroundColor: const Color(0xFFFCF9F9),
@@ -108,6 +112,8 @@ class _CustomAppbar3State extends State<CustomAppbar3> {
                         debugPrint("Time test $index");
                         setState(() {
                           _currentSelectTime = index;
+                          widget.onSetTimeOrder(
+                              "${_listTime[index].hour}:${_listTime[index].minute}");
                         });
                       },
                       child: Padding(

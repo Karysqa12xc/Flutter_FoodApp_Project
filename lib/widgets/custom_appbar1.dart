@@ -8,15 +8,23 @@ import 'package:food_app_example/const/color_const.dart';
 
 class CustomAppbar1 extends StatelessWidget implements PreferredSizeWidget {
   final Function(bool) onToggle;
+  final Function(String) onSearch;
+  final Function() setEmpty;
   final bool isGridMode;
+  final String result;
   const CustomAppbar1({
     Key? key,
     required this.onToggle,
     required this.isGridMode,
+    required this.result,
+    required this.onSearch,
+    required this.setEmpty,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController _controller = TextEditingController();
+    _controller.text = result;
     return SafeArea(
       child: Container(
         height: 126,
@@ -35,6 +43,7 @@ class CustomAppbar1 extends StatelessWidget implements PreferredSizeWidget {
                   child: Column(
                     children: [
                       TextFormField(
+                          controller: _controller,
                           style: GoogleFonts.nunito(
                               color: Colors.black, fontSize: 14),
                           decoration: InputDecoration(
@@ -61,11 +70,18 @@ class CustomAppbar1 extends StatelessWidget implements PreferredSizeWidget {
                                     height: 29,
                                     color: ColorConst.grey,
                                   ),
-                                  const Padding(
+                                  Padding(
                                     padding: EdgeInsets.only(left: 10),
-                                    child: Icon(
-                                      Icons.search,
-                                      color: Colors.grey,
+                                    child: InkWell(
+                                      onTap: () {
+                                        debugPrint("Hello");
+                                        onSearch(_controller.text);
+                                        _controller.clear();
+                                      },
+                                      child: Icon(
+                                        Icons.search,
+                                        color: Colors.grey,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -106,69 +122,69 @@ class CustomAppbar1 extends StatelessWidget implements PreferredSizeWidget {
                               borderRadius: BorderRadius.circular(8.0),
                             ),
                           )),
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.only(top: 10),
-                          alignment: Alignment.bottomLeft,
-                          child: ListView(
-                            scrollDirection: Axis.horizontal,
-                            children: [
-                              SizedBox(
-                                width: 95,
-                                child: InkWell(
-                                  onTap: () {},
-                                  child: Text(
-                                    "Nearby",
-                                    style: GoogleFonts.nunito(
-                                        color: ColorConst.white,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 95,
-                                child: InkWell(
-                                  onTap: () {},
-                                  child: Text(
-                                    "Popular",
-                                    style: GoogleFonts.nunito(
-                                        color: ColorConst.white,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 95,
-                                child: InkWell(
-                                  onTap: () {},
-                                  child: Text(
-                                    "Top review",
-                                    style: GoogleFonts.nunito(
-                                        color: ColorConst.white,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 95,
-                                child: InkWell(
-                                  onTap: () {},
-                                  child: Text(
-                                    "Recommend",
-                                    style: GoogleFonts.nunito(
-                                        color: ColorConst.white,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.bold),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      )
+                      // Expanded(
+                      //   child: Container(
+                      //     margin: EdgeInsets.only(top: 10),
+                      //     alignment: Alignment.bottomLeft,
+                      //     child: ListView(
+                      //       scrollDirection: Axis.horizontal,
+                      //       children: [
+                      //         SizedBox(
+                      //           width: 95,
+                      //           child: InkWell(
+                      //             onTap: () {},
+                      //             child: Text(
+                      //               "Nearby",
+                      //               style: GoogleFonts.nunito(
+                      //                   color: ColorConst.white,
+                      //                   fontSize: 12,
+                      //                   fontWeight: FontWeight.bold),
+                      //             ),
+                      //           ),
+                      //         ),
+                      //         SizedBox(
+                      //           width: 95,
+                      //           child: InkWell(
+                      //             onTap: () {},
+                      //             child: Text(
+                      //               "Popular",
+                      //               style: GoogleFonts.nunito(
+                      //                   color: ColorConst.white,
+                      //                   fontSize: 12,
+                      //                   fontWeight: FontWeight.bold),
+                      //             ),
+                      //           ),
+                      //         ),
+                      //         SizedBox(
+                      //           width: 95,
+                      //           child: InkWell(
+                      //             onTap: () {},
+                      //             child: Text(
+                      //               "Top review",
+                      //               style: GoogleFonts.nunito(
+                      //                   color: ColorConst.white,
+                      //                   fontSize: 12,
+                      //                   fontWeight: FontWeight.bold),
+                      //             ),
+                      //           ),
+                      //         ),
+                      //         SizedBox(
+                      //           width: 95,
+                      //           child: InkWell(
+                      //             onTap: () {},
+                      //             child: Text(
+                      //               "Recommend",
+                      //               style: GoogleFonts.nunito(
+                      //                   color: ColorConst.white,
+                      //                   fontSize: 12,
+                      //                   fontWeight: FontWeight.bold),
+                      //             ),
+                      //           ),
+                      //         ),
+                      //       ],
+                      //     ),
+                      //   ),
+                      // )
                     ],
                   ),
                 ),
@@ -184,11 +200,15 @@ class CustomAppbar1 extends StatelessWidget implements PreferredSizeWidget {
                     child: Row(
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            debugPrint("Test filter");
+                            setEmpty();
+                            _controller.clear();
+                          },
                           icon: SvgPicture.asset(SvgAsset.IG_FILTER),
                         ),
                         Text(
-                          "Filter",
+                          "Get all",
                           style: GoogleFonts.nunito(color: ColorConst.white),
                         )
                       ],
@@ -201,7 +221,17 @@ class CustomAppbar1 extends StatelessWidget implements PreferredSizeWidget {
                             onPressed: () {
                               onToggle(!isGridMode);
                             },
-                            icon: SvgPicture.asset(SvgAsset.IG_GRID)),
+                            icon: isGridMode
+                                ? SvgPicture.asset(
+                                    SvgAsset.IG_GRID,
+                                    colorFilter: ColorFilter.mode(
+                                        ColorConst.black, BlendMode.srcIn),
+                                  )
+                                : SvgPicture.asset(
+                                    SvgAsset.IG_GRID,
+                                    colorFilter: ColorFilter.mode(
+                                        ColorConst.white, BlendMode.srcIn),
+                                  )),
                         IconButton(
                             onPressed: () {},
                             icon: SvgPicture.asset(SvgAsset.IG_MESSAGE_SQUARE))

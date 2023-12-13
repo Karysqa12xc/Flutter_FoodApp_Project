@@ -1,16 +1,19 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:food_app_example/const/svg_asset.dart';
-import 'package:food_app_example/pages/sc7_main.dart';
-import 'package:food_app_example/widgets/custom_app_bar2.dart';
+import 'package:food_app_example/models/item_food.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:food_app_example/const/color_const.dart';
+import 'package:food_app_example/const/svg_asset.dart';
+import 'package:food_app_example/pages/sc7_main.dart';
+import 'package:food_app_example/widgets/custom_app_bar2.dart';
 
 class Sc7Categories extends StatefulWidget {
+  final List<ItemFood> foodItems;
   const Sc7Categories({
     Key? key,
+    required this.foodItems,
   }) : super(key: key);
 
   @override
@@ -95,7 +98,7 @@ class _Sc7CategoriesState extends State<Sc7Categories> {
               width: double.infinity,
               color: Colors.grey.withOpacity(0.1),
             ),
-            const Expanded(child: Sc7Main())
+            Expanded(child: Sc7Main(foodItems: widget.foodItems))
           ]),
         ),
         bottomNavigationBar: BottomAppBar(

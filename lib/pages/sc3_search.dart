@@ -16,6 +16,7 @@ class Sc3Search extends StatefulWidget {
 class _Sc3SearchState extends State<Sc3Search> {
   TextEditingController _controller = TextEditingController();
   final currentUser = FirebaseAuth.instance.currentUser;
+  final GlobalKey<FormState> _fromKey = GlobalKey<FormState>();
   @override
   void initState() {
     // TODO: implement initState
@@ -89,77 +90,92 @@ class _Sc3SearchState extends State<Sc3Search> {
                   ),
                   Container(
                     margin: const EdgeInsets.only(left: 25, right: 25),
-                    child: TextFormField(
-                        controller: _controller,
-                        style: GoogleFonts.nunito(
-                            color: Colors.black, fontSize: 16),
-                        decoration: InputDecoration(
-                          hintText: "Search for address food...",
-                          hintStyle: GoogleFonts.nunito(
-                              color: ColorConst.grey,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600),
-                          prefixIcon: IconButton(
-                              onPressed: () {},
-                              icon: const Icon(
-                                Icons.search,
-                                color: Colors.grey,
-                              )),
-                          suffixIcon: IconButton(
-                              onPressed: () {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        content: Container(
-                                          height: 200,
-                                          width: 300,
-                                          color: ColorConst.white,
-                                          child: ListView.separated(
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              return Text("Viet Nam");
-                                            },
-                                            separatorBuilder:
-                                                (BuildContext context,
-                                                    int index) {
-                                              return Container(
-                                                height: 1,
-                                                color: ColorConst.grey,
-                                              );
-                                            },
-                                            itemCount: 10,
+                    child: Form(
+                      key: _fromKey,
+                      child: TextFormField(
+                          controller: _controller,
+                          validator: (value) {
+                            if (_controller.text.isEmpty) {
+                              return "Bạn phải nhập thông tin ở đây";
+                            }
+                            return null;
+                          },
+                          style: GoogleFonts.nunito(
+                              color: Colors.black, fontSize: 16),
+                          decoration: InputDecoration(
+                            hintText: "Search for address food...",
+                            hintStyle: GoogleFonts.nunito(
+                                color: ColorConst.grey,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w600),
+                            prefixIcon: IconButton(
+                                onPressed: () {},
+                                icon: const Icon(
+                                  Icons.search,
+                                  color: Colors.grey,
+                                )),
+                            suffixIcon: IconButton(
+                                onPressed: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          content: Container(
+                                            height: 200,
+                                            width: 300,
+                                            color: ColorConst.white,
+                                            child: ListView.separated(
+                                              itemBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return Text("Viet Nam");
+                                              },
+                                              separatorBuilder:
+                                                  (BuildContext context,
+                                                      int index) {
+                                                return Container(
+                                                  height: 1,
+                                                  color: ColorConst.grey,
+                                                );
+                                              },
+                                              itemCount: 10,
+                                            ),
                                           ),
-                                        ),
-                                      );
-                                    });
-                              },
-                              icon: const Icon(
-                                Icons.location_on,
-                                color: ColorConst.pink,
-                              )),
-                          filled: true,
-                          fillColor: Colors.white,
-                          isDense: true,
-                          focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                              borderSide:
-                                  const BorderSide(color: ColorConst.pink)),
-                          enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(8.0),
-                              borderSide:
-                                  const BorderSide(color: Colors.black)),
-                        )),
+                                        );
+                                      });
+                                },
+                                icon: const Icon(
+                                  Icons.location_on,
+                                  color: ColorConst.pink,
+                                )),
+                            filled: true,
+                            fillColor: Colors.white,
+                            isDense: true,
+                            focusedBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide:
+                                    const BorderSide(color: ColorConst.pink)),
+                            enabledBorder: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide:
+                                    const BorderSide(color: Colors.black)),
+                          )),
+                    ),
                   ),
                   const SizedBox(height: 60),
                   Container(
                     margin: const EdgeInsets.only(
                         top: 5, left: 25, right: 25, bottom: 100),
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.of(context).push(PageTransition(
-                            child: Sc4SearchResult(),
-                            type: PageTransitionType.theme));
+                      onPressed: () async {
+                        if (_fromKey.currentState!.validate()) {
+                          await Navigator.of(context).push(PageTransition(
+                            child:
+                                Sc4SearchResult(resultSearch: _controller.text),
+                            type: PageTransitionType.theme,
+                          ));
+                          _controller.clear();
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                           backgroundColor: ColorConst.pink,

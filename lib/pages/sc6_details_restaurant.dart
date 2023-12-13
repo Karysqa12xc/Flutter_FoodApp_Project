@@ -63,13 +63,6 @@ class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
                         color: Colors.black,
                       ),
                     ),
-                    Text(
-                      _currentRestaurantInfo.description,
-                      style: GoogleFonts.nunito(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w700,
-                          color: ColorConst.greyBold),
-                    ),
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -107,7 +100,7 @@ class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
                                   color: ColorConst.greyBold),
                             ),
                             Text(
-                              "10:30 - 23:30",
+                              "8:30 - 19:30",
                               style: GoogleFonts.nunito(),
                             )
                           ],
@@ -183,8 +176,7 @@ class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
                             fontWeight: FontWeight.bold,
                             color: ColorConst.black)),
                     SizedBox(height: 10),
-                    Text(
-                        "Food is scrumptious, delicious, delectable, luscious,\ngreat tasting, much more than tasty, really appetizing,\nlip-smacking; the kind of food to have you licking your\nlips in anticipation. This is the word everyone wants to\nhear when bringing food to the table. Yummy food is\nnever unpalatable, plain tasting, distasteful or\ndisgusting. View more",
+                    Text("${_currentRestaurantInfo.description}",
                         style: GoogleFonts.nunito(
                             fontSize: 14, fontWeight: FontWeight.w500)),
                   ],
@@ -212,6 +204,12 @@ class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
                         return Text("Không có dữ liệu");
                       } else {
                         List<dynamic> foodsData = snapshot.data!['foods'];
+                        List<ItemFood> foodItems = foodsData
+                            .where((item) =>
+                                item['idRestaurant'] ==
+                                _currentRestaurantInfo.id)
+                            .map((e) => ItemFood.fromJson(e))
+                            .toList();
                         return Column(
                           children: [
                             Padding(
@@ -228,7 +226,8 @@ class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
                                     onTap: () {
                                       debugPrint("Text See all categories btn");
                                       Navigator.of(context).push(PageTransition(
-                                          child: Sc7Categories(),
+                                          child: Sc7Categories(
+                                              foodItems: foodItems),
                                           type: PageTransitionType.fade));
                                     },
                                     child: Text(
@@ -242,53 +241,50 @@ class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
                               ),
                             ),
                             SizedBox(
-                              height: 260,
+                              height: (foodItems.length < 3) ? 100 : 260,
                               // width: double.infinity,
                               child: Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: ListView.separated(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
                                     itemBuilder: (context, index) {
-                                      ItemFood foods =
-                                          ItemFood.fromJson(foodsData[index]);
-                                      if (foods.idRestaurant ==
-                                          _currentRestaurantInfo.id) {
-                                        return Padding(
-                                          padding: const EdgeInsets.all(8.0),
-                                          child: Row(
-                                            children: [
-                                              SizedBox(
-                                                height: 60,
-                                                width: 60,
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  child: Image.asset(
-                                                    foods.imagePathFood,
-                                                    fit: BoxFit.cover,
-                                                  ),
+                                      debugPrint(_currentRestaurantInfo.id);
+                                      return Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(
+                                          children: [
+                                            SizedBox(
+                                              height: 60,
+                                              width: 60,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                child: Image.asset(
+                                                  foodItems[index]
+                                                      .imagePathFood,
+                                                  fit: BoxFit.cover,
                                                 ),
                                               ),
-                                              const SizedBox(width: 20),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(foods.nameFood,
-                                                      style: GoogleFonts.nunito(
-                                                          fontSize: 15,
-                                                          fontWeight:
-                                                              FontWeight.bold)),
-                                                  Text("\$" + foods.cost,
-                                                      style:
-                                                          GoogleFonts.nunito()),
-                                                ],
-                                              )
-                                            ],
-                                          ),
-                                        );
-                                      }
+                                            ),
+                                            const SizedBox(width: 20),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(foodItems[index].nameFood,
+                                                    style: GoogleFonts.nunito(
+                                                        fontSize: 15,
+                                                        fontWeight:
+                                                            FontWeight.bold)),
+                                                Text(
+                                                    "\$" +
+                                                        foodItems[index].cost,
+                                                    style:
+                                                        GoogleFonts.nunito()),
+                                              ],
+                                            )
+                                          ],
+                                        ),
+                                      );
                                     },
                                     separatorBuilder: (context, index) {
                                       return Container(
@@ -296,7 +292,9 @@ class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
                                         color: ColorConst.grey,
                                       );
                                     },
-                                    itemCount: 3),
+                                    itemCount: foodItems.length >= 3
+                                        ? 3
+                                        : foodItems.length),
                               ),
                             ),
                           ],

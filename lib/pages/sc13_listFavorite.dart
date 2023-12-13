@@ -10,18 +10,17 @@ import 'package:food_app_example/services/firebase_functions.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 
-class ListMain extends StatefulWidget {
+class ListFavorite extends StatefulWidget {
   final List<dynamic> items;
 
-  ListMain({required this.items});
+  ListFavorite({required this.items});
 
   @override
   _ListMainState createState() => _ListMainState();
 }
 
-class _ListMainState extends State<ListMain> {
+class _ListMainState extends State<ListFavorite> {
   List<FavoriteFood> favFood = [];
-  int doubleTabCount = 0;
   @override
   void initState() {
     super.initState();
@@ -36,7 +35,7 @@ class _ListMainState extends State<ListMain> {
   @override
   Widget build(BuildContext context) {
     return widget.items.isEmpty
-        ? Center(child: Text("Không có dữ liệu"))
+        ? Center(child: Text("Chưa có mục yêu thích"))
         : ListView.builder(
             itemCount: widget.items.length,
             itemBuilder: (context, index) {
@@ -46,12 +45,11 @@ class _ListMainState extends State<ListMain> {
               return InkWell(
                 onDoubleTap: () async {
                   debugPrint("Test double touch card in list view");
-
                   setState(() {
                     restaurantInfo.isFavorite = !restaurantInfo.isFavorite;
                     bool isFavorite = favFood
                         .any((item) => item.idRestaurant == restaurantInfo.id);
-                    if (isFavorite) {
+                    if (!isFavorite) {
                       favFood.removeWhere(
                           (item) => item.idRestaurant == restaurantInfo.id);
                       deleteFavoriteRestaurantList(restaurantInfo.id);
@@ -76,7 +74,9 @@ class _ListMainState extends State<ListMain> {
                   padding: const EdgeInsets.all(12.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: ColorConst.white,
+                      color: restaurantInfo.isFavorite
+                          ? ColorConst.orange
+                          : ColorConst.white,
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(

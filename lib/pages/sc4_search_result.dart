@@ -7,7 +7,9 @@ import 'package:food_app_example/pages/sc4_listmain.dart';
 import 'package:food_app_example/widgets/custom_appbar1.dart';
 
 class Sc4SearchResult extends StatefulWidget {
-  const Sc4SearchResult({Key? key}) : super(key: key);
+  final String resultSearch;
+  const Sc4SearchResult({Key? key, required this.resultSearch})
+      : super(key: key);
 
   @override
   _Sc4SearchResultState createState() => _Sc4SearchResultState();
@@ -15,40 +17,7 @@ class Sc4SearchResult extends StatefulWidget {
 
 class _Sc4SearchResultState extends State<Sc4SearchResult> {
   bool isGridMode = false;
-  // final List<ItemFood> items = [
-  //   ItemFood(
-  //       imagePath: ImgAsset.Sushi,
-  //       title: "Tuna Sushi Platter (3 Types)",
-  //       description:
-  //           "Sushi Platter | Tuna (2 pcs), Semi-fatty Tuna (2 pcs).\nPrime Fatty Tuna(2pcs)",
-  //       reviews: "298 reviews",
-  //       cost: '10'),
-  //   ItemFood(
-  //       imagePath: ImgAsset.Curry,
-  //       title: "Secret Curry with Pan-seared Lamb For Everyone",
-  //       description: "Lipie, carne pui, cartofi pai,\nsosuri, salata - 700g",
-  //       reviews: "298 reviews",
-  //       cost: '20'),
-  //   ItemFood(
-  //       imagePath: ImgAsset.SpringRoll,
-  //       title: "Nem 5 chiếc",
-  //       description: "Đồ ăn siêu ngon dành cho người không muốn ăn kiêng",
-  //       reviews: "298 reviews",
-  //       cost: '30'),
-  //   ItemFood(
-  //       imagePath: ImgAsset.Hamburger,
-  //       title: "Bánh kẹp thịt",
-  //       description:
-  //           "Đồ ăn cho người béo rất tốt cho sức khoẻ nếu ăn trên 10 chiếc, ngon hơn khi không có rau",
-  //       reviews: "298 reviews",
-  //       cost: '50'),
-  //   ItemFood(
-  //       imagePath: ImgAsset.Curry,
-  //       title: "Secret Curry with Pan-seared Lamb For Everyone",
-  //       description: "Lipie, carne pui, cartofi pai,\nsosuri, salata - 700g",
-  //       reviews: "298 reviews",
-  //       cost: '60'),
-  // ];
+  late String result = widget.resultSearch;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,6 +28,18 @@ class _Sc4SearchResultState extends State<Sc4SearchResult> {
             });
           },
           isGridMode: isGridMode,
+          result: result,
+          onSearch: (String resultValue) {
+            setState(() {
+              debugPrint(result);
+              result = resultValue;
+            });
+          },
+          setEmpty: () {
+            setState(() {
+              result = "";
+            });
+          },
         ),
         body: StreamBuilder(
             stream: FirebaseFirestore.instance
@@ -76,11 +57,19 @@ class _Sc4SearchResultState extends State<Sc4SearchResult> {
                 return Text("Không có dữ liệu");
               } else {
                 List<dynamic> itemsData = snapshot.data!['items'];
-                
+                List<dynamic> filteredItems = itemsData.where((item) {
+                  String realResult = (result == widget.resultSearch)
+                      ? widget.resultSearch
+                      : result;
+                  return item['title'] == realResult;
+                }).toList();
+
                 return SafeArea(
                   child: isGridMode
-                      ? GridMain(items: itemsData)
-                      : ListMain(items: itemsData),
+                      ? GridMain(
+                          items: result.isEmpty ? itemsData : filteredItems)
+                      : ListMain(
+                          items: result.isEmpty ? itemsData : filteredItems),
                 );
               }
             }));

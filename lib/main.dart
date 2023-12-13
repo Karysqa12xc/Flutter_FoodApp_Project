@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:food_app_example/pages/sc4_search_result.dart';
-import 'package:food_app_example/pages/sc9_and_11_book_a_table.dart';
+import 'package:food_app_example/pages/sc1_lobby.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-
   runApp(const MyApp());
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -22,7 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: Sc4SearchResult(),
+      home: Sc1Lobby(),
       debugShowCheckedModeBanner: false,
     );
   }

@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:food_app_example/const/img_asset.dart';
+import 'package:food_app_example/models/item_food.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Sc7Main extends StatelessWidget {
-  const Sc7Main({Key? key}) : super(key: key);
+  final List<ItemFood> foodItems;
+  const Sc7Main({Key? key, required this.foodItems}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      itemCount: 10,
+      itemCount: foodItems.length,
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.all(15),
@@ -21,14 +22,14 @@ class Sc7Main extends StatelessWidget {
                   child: SizedBox(
                       height: 60,
                       width: 60,
-                      child: Image.asset(ImgAsset.Hamburger)),
+                      child: Image.asset(foodItems[index].imagePathFood)),
                 )),
                 Expanded(
                     child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Banh my kep",
+                      "${foodItems[index].nameFood}",
                       style: GoogleFonts.nunito(
                           fontSize: 15, fontWeight: FontWeight.bold),
                     ),
@@ -36,7 +37,7 @@ class Sc7Main extends StatelessWidget {
                       height: 8,
                     ),
                     Text(
-                      "\$132",
+                      "\$${foodItems[index].cost}",
                       style: GoogleFonts.nunito(
                           fontSize: 11,
                           fontWeight: FontWeight.bold,

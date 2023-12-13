@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:food_app_example/const/color_const.dart';
+import 'package:food_app_example/pages/sc17_settings.dart';
+import 'package:page_transition/page_transition.dart';
 
 class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> icons;
@@ -47,6 +49,9 @@ class CustomAppBar2 extends StatelessWidget implements PreferredSizeWidget {
                 onTap: () {
                   if (secondIconData == Icons.settings) {
                     debugPrint("Settings btn");
+                    Navigator.of(context).push(PageTransition(
+                        child: Sc17Settings(),
+                        type: PageTransitionType.leftToRight));
                   }
                 },
                 child: icons[1],

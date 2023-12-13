@@ -1,18 +1,18 @@
 import 'package:animated_custom_dropdown/custom_dropdown.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_app_example/const/color_const.dart';
 import 'package:food_app_example/const/img_asset.dart';
 import 'package:food_app_example/const/svg_asset.dart';
 import 'package:food_app_example/models/item_food.dart';
+import 'package:food_app_example/models/order_list.dart';
 import 'package:food_app_example/models/restaurant.dart';
 import 'package:food_app_example/pages/sc_home.dart';
-
 import 'package:food_app_example/widgets/custom_appbar3.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:uuid/uuid.dart';
 
 class Sc9And11BookATable extends StatefulWidget {
   final Restaurant restaurantInfo;
@@ -24,33 +24,6 @@ class Sc9And11BookATable extends StatefulWidget {
 }
 
 class _Sc9And11BookATableState extends State<Sc9And11BookATable> {
-  final Restaurant items = Restaurant(
-      id: Uuid().v4(),
-      imagePath: ImgAsset.Curry,
-      title: "Đồ ăn tốt cho sức khoẻ",
-      description: "Ngon vãi cả lồn",
-      reviews: "298",
-      isFavorite: false);
-  List<ItemFood> food() {
-    return [
-      ItemFood(
-          idRestaurant: items.id,
-          imagePathFood: ImgAsset.DogMeat,
-          nameFood: "Thịt chó",
-          cost: "50"),
-      ItemFood(
-          idRestaurant: items.id,
-          imagePathFood: ImgAsset.Curry,
-          nameFood: "Cà ri",
-          cost: "30"),
-      ItemFood(
-          idRestaurant: items.id,
-          imagePathFood: ImgAsset.Hamburger,
-          nameFood: "Bánh mỳ kẹp thịt",
-          cost: "50"),
-    ];
-  }
-
   late Restaurant _currentRestaurantInfo;
 
   @override
@@ -71,12 +44,17 @@ class _Sc9And11BookATableState extends State<Sc9And11BookATable> {
   List<int> selectedItems = [];
   int _visibleCountItem = 3;
   bool isTenItem = false;
-  double totalCost = 0;
   late String funStr = "View more";
+
+  double totalCost = 0;
+  DateTime _selectedDay = DateTime.now();
+  late String _timeOrder = "8:30";
+  late String _optionOrdering;
+  List<ItemFood> foodsOrdering = [];
   final GlobalKey<FormState> _listKey = GlobalKey<FormState>();
   void loadMoreItem(int fullLength) {
     setState(() {
-      _visibleCountItem = food().length;
+      _visibleCountItem = fullLength;
       funStr = "Short Item";
       isTenItem = true;
     });
@@ -89,11 +67,21 @@ class _Sc9And11BookATableState extends State<Sc9And11BookATable> {
       isTenItem = false;
     });
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const CustomAppbar3(),
+      appBar: CustomAppbar3(
+        onSetDateTimeOrder: (DateTime d) {
+          setState(() {
+            _selectedDay = d;
+          });
+        },
+        onSetTimeOrder: (String t) {
+          setState(() {
+            _timeOrder = t;
+          });
+        },
+      ),
       body: SafeArea(
         child: Column(
           children: [
@@ -133,6 +121,7 @@ class _Sc9And11BookATableState extends State<Sc9And11BookATable> {
                             children: [
                               Form(
                                 key: _listKey,
+                                autovalidateMode: AutovalidateMode.always,
                                 child: CustomDropdown<String>(
                                   hintText: 'Select Your Options',
                                   items: _list,
@@ -144,8 +133,9 @@ class _Sc9And11BookATableState extends State<Sc9And11BookATable> {
                                     return null;
                                   },
                                   onChanged: (value) {
-                                    debugPrint(value);
+                                    _optionOrdering = value;
                                   },
+                                  validateOnChange: true,
                                 ),
                               )
                             ],
@@ -183,6 +173,12 @@ class _Sc9And11BookATableState extends State<Sc9And11BookATable> {
                         return Text("Không có dữ liệu");
                       } else {
                         List<dynamic> foodsData = snapshot.data!['foods'];
+                        List<dynamic> foodItems = foodsData
+                            .where((item) =>
+                                item['idRestaurant'] ==
+                                _currentRestaurantInfo.id)
+                            .map((e) => ItemFood.fromJson(e))
+                            .toList();
                         return Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -204,7 +200,7 @@ class _Sc9And11BookATableState extends State<Sc9And11BookATable> {
                                       if (isTenItem) {
                                         shortedItem();
                                       } else {
-                                        loadMoreItem(foodsData.length);
+                                        loadMoreItem(foodItems.length);
                                       }
                                     },
                                     child: Text(
@@ -212,7 +208,8 @@ class _Sc9And11BookATableState extends State<Sc9And11BookATable> {
                                       style: GoogleFonts.nunito(
                                           fontWeight: FontWeight.w400,
                                           fontSize: 14,
-                                          color: ColorConst.pink),
+                                          color: const Color.fromARGB(
+                                              255, 39, 13, 25)),
                                       textAlign: TextAlign.center,
                                     ),
                                   ),
@@ -223,91 +220,90 @@ class _Sc9And11BookATableState extends State<Sc9And11BookATable> {
                               child: ListView.separated(
                                 itemCount: _visibleCountItem,
                                 itemBuilder: (context, index) {
-                                  ItemFood foods =
-                                      ItemFood.fromJson(foodsData[index]);
-                                  if (foods.idRestaurant ==
-                                      _currentRestaurantInfo.id) {
-                                    return Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Row(
-                                            children: [
-                                              SizedBox(
-                                                height: 50,
-                                                width: 50,
-                                                child: ClipRRect(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  child: Image.asset(
-                                                    foods.imagePathFood,
-                                                    fit: BoxFit.cover,
-                                                  ),
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            SizedBox(
+                                              height: 50,
+                                              width: 50,
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                child: Image.asset(
+                                                  foodItems[index]
+                                                      .imagePathFood,
+                                                  fit: BoxFit.cover,
                                                 ),
                                               ),
-                                              const SizedBox(width: 10),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    foods.nameFood,
-                                                    style: GoogleFonts.nunito(
-                                                        fontSize: 15,
-                                                        fontWeight:
-                                                            FontWeight.w700),
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    maxLines: 1,
-                                                  ),
-                                                  Text(
-                                                    "\$"
-                                                    "${foods.cost}",
-                                                    style: GoogleFonts.nunito(
-                                                        fontSize: 11),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                          InkWell(
-                                            onTap: () {
-                                              setState(() {
-                                                if (selectedItems
-                                                    .contains(index)) {
-                                                  selectedItems.remove(index);
-                                                  totalCost -=
-                                                      double.parse(foods.cost);
-                                                } else {
-                                                  selectedItems.add(index);
-                                                  totalCost +=
-                                                      double.parse(foods.cost);
-                                                }
-                                              });
-                                            },
-                                            child: selectedItems.contains(index)
-                                                ? const CircleAvatar(
-                                                    backgroundColor:
-                                                        ColorConst.pink,
-                                                    child: Icon(Icons.check,
-                                                        color:
-                                                            ColorConst.white),
-                                                  )
-                                                : const CircleAvatar(
-                                                    backgroundColor:
-                                                        ColorConst.grey,
-                                                    child: Icon(Icons.check,
-                                                        color:
-                                                            ColorConst.black),
-                                                  ),
-                                          )
-                                        ],
-                                      ),
-                                    );
-                                  }
-                                  return null;
+                                            ),
+                                            const SizedBox(width: 10),
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  foodItems[index].nameFood,
+                                                  style: GoogleFonts.nunito(
+                                                      fontSize: 15,
+                                                      fontWeight:
+                                                          FontWeight.w700),
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  maxLines: 1,
+                                                ),
+                                                Text(
+                                                  "\$"
+                                                  "${foodItems[index].cost}",
+                                                  style: GoogleFonts.nunito(
+                                                      fontSize: 11),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                        InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              if (selectedItems
+                                                  .contains(index)) {
+                                                selectedItems.remove(index);
+                                                foodsOrdering.removeWhere(
+                                                    (item) =>
+                                                        item ==
+                                                        foodItems[index]);
+                                                totalCost -= double.parse(
+                                                    foodItems[index].cost);
+                                              } else {
+                                                selectedItems.add(index);
+                                                foodsOrdering
+                                                    .add(foodItems[index]);
+                                                totalCost += double.parse(
+                                                    foodItems[index].cost);
+                                              }
+                                            });
+                                          },
+                                          child: selectedItems.contains(index)
+                                              ? const CircleAvatar(
+                                                  backgroundColor:
+                                                      ColorConst.pink,
+                                                  child: Icon(Icons.check,
+                                                      color: ColorConst.white),
+                                                )
+                                              : const CircleAvatar(
+                                                  backgroundColor:
+                                                      ColorConst.grey,
+                                                  child: Icon(Icons.check,
+                                                      color: ColorConst.black),
+                                                ),
+                                        )
+                                      ],
+                                    ),
+                                  );
                                 },
                                 separatorBuilder:
                                     (BuildContext context, int index) {
@@ -345,9 +341,54 @@ class _Sc9And11BookATableState extends State<Sc9And11BookATable> {
               SizedBox(
                 height: double.infinity,
                 child: InkWell(
-                  onTap: (totalCost > 0 && (_listKey.currentState!.validate()))
-                      ? () {
-                          debugPrint("Test order button");
+                  onTap: (totalCost > 0 && _listKey.currentState!.validate())
+                      ? () async {
+                          try {
+                            debugPrint("Test order button");
+                            final currentUser =
+                                FirebaseAuth.instance.currentUser;
+                            List<Map<String, dynamic>> foodOrderedMapList =
+                                foodsOrdering
+                                    .map((itemFood) => itemFood.toJson())
+                                    .toList();
+                            OrderList newOrder = OrderList(
+                                idUser: currentUser!.uid,
+                                imageOrderPath:
+                                    _currentRestaurantInfo.imagePath,
+                                nameRestaurant: _currentRestaurantInfo.title,
+                                orderTime: DateTime.now(),
+                                optionOrdering: _optionOrdering,
+                                cost: totalCost,
+                                foodOrdered: foodOrderedMapList,
+                                dayOrder: _selectedDay,
+                                timeOrder: _timeOrder);
+                            Map<String, dynamic> orderJson = newOrder.toJson();
+                            // Lấy tham chiếu đến collection "Order"
+                            CollectionReference orderCollection =
+                                FirebaseFirestore.instance.collection('Order');
+                            DocumentReference orderDocument =
+                                orderCollection.doc("${currentUser.email}");
+                            bool documentExists =
+                                (await orderDocument.get()).exists;
+
+                            if (documentExists) {
+                              // Nếu tài liệu đã tồn tại, thêm dữ liệu mới vào tài liệu đó
+                              await orderDocument.set(
+                                {
+                                  'OrderDate':
+                                      FieldValue.arrayUnion([orderJson])
+                                },
+                                SetOptions(merge: true),
+                              );
+                            } else {
+                              await orderDocument.set({
+                                'OrderDate': [orderJson]
+                              });
+                            }
+                          } catch (e) {
+                            debugPrint("$e");
+                          }
+
                           showDialog(
                               context: context,
                               barrierDismissible: false,
