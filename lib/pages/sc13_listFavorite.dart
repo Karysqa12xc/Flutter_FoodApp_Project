@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_app_example/const/color_const.dart';
@@ -53,11 +53,6 @@ class _ListMainState extends State<ListFavorite> {
                       favFood.removeWhere(
                           (item) => item.idRestaurant == restaurantInfo.id);
                       deleteFavoriteRestaurantList(restaurantInfo.id);
-                    } else {
-                      favFood.add(FavoriteFood(
-                          idUser: FirebaseAuth.instance.currentUser!.uid,
-                          idRestaurant: restaurantInfo.id));
-                      addFavoriteRestaurantList(favFood);
                     }
                   });
 
@@ -74,9 +69,7 @@ class _ListMainState extends State<ListFavorite> {
                   padding: const EdgeInsets.all(12.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: restaurantInfo.isFavorite
-                          ? ColorConst.orange
-                          : ColorConst.white,
+                      color: ColorConst.white,
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(

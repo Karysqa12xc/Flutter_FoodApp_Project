@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_app_example/const/color_const.dart';
 import 'package:food_app_example/const/svg_asset.dart';
+import 'package:food_app_example/models/favorite_food.dart';
 import 'package:food_app_example/models/restaurant.dart';
 import 'package:food_app_example/pages/sc6_details_restaurant.dart';
 import 'package:food_app_example/services/firebase_functions.dart';
@@ -18,6 +20,7 @@ class GridMain extends StatefulWidget {
 }
 
 class _GridMainState extends State<GridMain> {
+  List<FavoriteFood> favFood = [];
   void initState() {
     super.initState();
   }
@@ -44,8 +47,23 @@ class _GridMainState extends State<GridMain> {
                   Restaurant.fromJson(widget.items[index]);
               return InkWell(
                 onDoubleTap: () {
+                  debugPrint("Test double touch card in list view");
+                  restaurantInfo.isFavorite = !restaurantInfo.isFavorite;
                   setState(() {
-                    restaurantInfo.isFavorite = !restaurantInfo.isFavorite;
+                    if (restaurantInfo.isFavorite) {
+                      favFood.clear();
+                      // If the restaurant is marked as a favorite, add it to the list
+                      favFood.add(FavoriteFood(
+                        idUser: FirebaseAuth.instance.currentUser!.uid,
+                        idRestaurant: restaurantInfo.id,
+                      ));
+                      addFavoriteRestaurantList(favFood);
+                    } else {
+                      // If the restaurant is not a favorite, remove it from the list
+                      favFood.removeWhere(
+                          (item) => item.idRestaurant == restaurantInfo.id);
+                      deleteFavoriteRestaurantList(restaurantInfo.id);
+                    }
                   });
 
                   debugPrint("${restaurantInfo.isFavorite.runtimeType}");
@@ -61,9 +79,7 @@ class _GridMainState extends State<GridMain> {
                   padding: const EdgeInsets.all(4.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: restaurantInfo.isFavorite
-                          ? ColorConst.orange
-                          : ColorConst.white,
+                      color: ColorConst.white,
                       borderRadius: BorderRadius.circular(15),
                       boxShadow: [
                         BoxShadow(

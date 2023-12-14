@@ -53,10 +53,12 @@ class _Sc15OrderHistoryState extends State<Sc15OrderHistory> {
                 return Center(child: Text("Không có dữ liệu"));
               } else {
                 List<dynamic> orderData = snapshot.data!['OrderDate'];
+                List<dynamic> reversedOrderData = orderData.reversed.toList();
                 return ListView.builder(
                   itemCount: orderData.length,
                   itemBuilder: (context, index) {
-                    OrderList orderItems = OrderList.fromJson(orderData[index]);
+                    OrderList orderItems =
+                        OrderList.fromJson(reversedOrderData[index]);
                     return InkWell(
                       onTap: () {
                         Navigator.of(context).push(PageTransition(

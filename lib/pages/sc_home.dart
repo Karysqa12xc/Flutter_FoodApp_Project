@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:food_app_example/const/color_const.dart';
-
 import 'package:food_app_example/const/svg_asset.dart';
 import 'package:food_app_example/home_cubit.dart';
-import 'package:food_app_example/pages/sc12_notification.dart';
 import 'package:food_app_example/pages/sc13_favorites.dart';
 import 'package:food_app_example/pages/sc15_order_history.dart';
 import 'package:food_app_example/pages/sc3_search.dart';
@@ -54,7 +51,7 @@ class _ScHomeState extends State<ScHome> {
                   Sc3Search(),
                   Sc15OrderHistory(),
                   Sc13Favorites(),
-                  Sc12Notification(),
+                  // Sc12Notification(),
                   Sc8Profile(
                     onIndexChanged: (index) {
                       controller.jumpToPage(index);
@@ -96,18 +93,18 @@ class _ScHomeState extends State<ScHome> {
                       isSelected: state.selectedIndex == 2,
                     ),
                     label: ""),
-                BottomNavigationBarItem(
-                    icon: ColoredSvgPicture(
-                      path: SvgAsset.IG_NOTIFICATION,
-                      color: ColorConst.grey,
-                      isSelected: state.selectedIndex == 3,
-                    ),
-                    label: ""),
+                // BottomNavigationBarItem(
+                //     icon: ColoredSvgPicture(
+                //       path: SvgAsset.IG_NOTIFICATION,
+                //       color: ColorConst.grey,
+                //       isSelected: state.selectedIndex == 3,
+                //     ),
+                //     label: ""),
                 BottomNavigationBarItem(
                     icon: ColoredSvgPicture(
                       path: SvgAsset.IG_PROFILE,
                       color: ColorConst.grey,
-                      isSelected: state.selectedIndex == 4,
+                      isSelected: state.selectedIndex == 3,
                     ),
                     label: ""),
               ],

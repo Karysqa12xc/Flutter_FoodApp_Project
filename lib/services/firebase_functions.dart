@@ -10,13 +10,21 @@ Future<void> addFavoriteRestaurantList(List<FavoriteFood> items) async {
         FirebaseFirestore.instance.collection('favorite');
     DocumentReference itemDoc =
         itemsCollection.doc(FirebaseAuth.instance.currentUser!.email);
+
+    // Retrieve the current data
+    DocumentSnapshot documentSnapshot = await itemDoc.get();
+    Map<String, dynamic> currentData =
+        documentSnapshot.data() as Map<String, dynamic>? ?? {};
+
+    // Convert the new items to a list of maps
     List<Map<String, dynamic>> itemsData =
         items.map((item) => item.toJson()).toList();
 
-    await itemDoc.set({
-      'favorite': itemsData,
-    });
+    // Merge the new items into the existing data
+    currentData['favorite'] = [...currentData['favorite'] ?? [], ...itemsData];
 
+    // Set the updated data to Firestore
+    await itemDoc.set(currentData, SetOptions(merge: true));
     debugPrint("Danh sách các mục đã được thêm vào Firebase.");
   } catch (e) {
     debugPrint("Lỗi khi thêm danh sách các mục: $e");
@@ -47,12 +55,11 @@ Future<void> deleteFavoriteRestaurantList(String itemId) async {
     print('Error removing item: $e');
   }
 }
+
 Future<Map<String, dynamic>> getFavoriteItemsByUid(String? uid) async {
   try {
-    DocumentSnapshot documentSnapshot = await FirebaseFirestore.instance
-        .collection('favorite')
-        .doc(uid)
-        .get();
+    DocumentSnapshot documentSnapshot =
+        await FirebaseFirestore.instance.collection('favorite').doc(uid).get();
 
     if (documentSnapshot.exists) {
       // Trả về dữ liệu của tài liệu
@@ -67,6 +74,7 @@ Future<Map<String, dynamic>> getFavoriteItemsByUid(String? uid) async {
     return {};
   }
 }
+
 Future<void> updateRestaurant(List<ItemFood> items, String documentId) async {
   try {
     DocumentReference itemsDocument =

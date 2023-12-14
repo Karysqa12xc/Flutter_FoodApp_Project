@@ -49,17 +49,20 @@ class _ListMainState extends State<ListMain> {
 
                   setState(() {
                     restaurantInfo.isFavorite = !restaurantInfo.isFavorite;
-                    bool isFavorite = favFood
-                        .any((item) => item.idRestaurant == restaurantInfo.id);
-                    if (isFavorite) {
+
+                    if (restaurantInfo.isFavorite) {
+                      favFood.clear();
+                      // If the restaurant is marked as a favorite, add it to the list
+                      favFood.add(FavoriteFood(
+                        idUser: FirebaseAuth.instance.currentUser!.uid,
+                        idRestaurant: restaurantInfo.id,
+                      ));
+                      addFavoriteRestaurantList(favFood);
+                    } else {
+                      // If the restaurant is not a favorite, remove it from the list
                       favFood.removeWhere(
                           (item) => item.idRestaurant == restaurantInfo.id);
                       deleteFavoriteRestaurantList(restaurantInfo.id);
-                    } else {
-                      favFood.add(FavoriteFood(
-                          idUser: FirebaseAuth.instance.currentUser!.uid,
-                          idRestaurant: restaurantInfo.id));
-                      addFavoriteRestaurantList(favFood);
                     }
                   });
 

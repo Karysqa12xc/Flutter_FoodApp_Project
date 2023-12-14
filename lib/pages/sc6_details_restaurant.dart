@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:food_app_example/const/color_const.dart';
-import 'package:food_app_example/const/img_asset.dart';
+// import 'package:food_app_example/const/img_asset.dart';
 import 'package:food_app_example/const/svg_asset.dart';
 import 'package:food_app_example/models/item_food.dart';
 import 'package:food_app_example/models/restaurant.dart';
-import 'package:food_app_example/pages/sc16_reviews.dart';
+// import 'package:food_app_example/pages/sc16_reviews.dart';
 import 'package:food_app_example/pages/sc7_categories.dart';
 import 'package:food_app_example/pages/sc9_and_11_book_a_table.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -301,118 +301,118 @@ class _Sc6DetailsRestaurantState extends State<Sc6DetailsRestaurant> {
                         );
                       }
                     })),
-            const SizedBox(height: 10),
-            Container(
-                color: ColorConst.white,
-                width: double.infinity,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text("reviews".toUpperCase()),
-                          InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(PageTransition(
-                                  child: Sc16Reviews(),
-                                  type: PageTransitionType.fade));
-                            },
-                            child: Text(
-                              "See all reviews",
-                              style: GoogleFonts.nunito(
-                                  fontWeight: FontWeight.bold,
-                                  color: ColorConst.pink),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(
-                      height: 250,
-                      // width: double.infinity,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListView.separated(
-                            itemBuilder: (context, index) {
-                              return Row(
-                                children: [
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            SizedBox(width: 20),
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  const SizedBox(
-                                                    child: CircleAvatar(
-                                                      radius: 30,
-                                                      backgroundImage:
-                                                          AssetImage(
-                                                        ImgAsset.Avatar,
-                                                      ),
-                                                    ),
-                                                  ),
-                                                  Row(
-                                                    children: [
-                                                      Text("Anna Rose",
-                                                          style: GoogleFonts
-                                                              .nunito(
-                                                                  fontSize: 16,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold)),
-                                                      SizedBox(
-                                                        width: 20,
-                                                      ),
-                                                      SvgPicture.asset(
-                                                          SvgAsset.IG_STAR),
-                                                      SvgPicture.asset(
-                                                          SvgAsset.IG_STAR),
-                                                      SvgPicture.asset(
-                                                          SvgAsset.IG_STAR),
-                                                      SvgPicture.asset(
-                                                          SvgAsset.IG_STAR),
-                                                      SvgPicture.asset(
-                                                          SvgAsset.IG_STAR),
-                                                    ],
-                                                  ),
-                                                  Text("2 hours",
-                                                      style:
-                                                          GoogleFonts.nunito()),
-                                                  Text(
-                                                      "We had a chance to try some of the food from the restaurant prepared for the food festival, and the chicken croquettes were simply amazing! We had a chance to try some of the food from the restaurant prepared for the food festival, and the chicken croquettes were simply amazing! We had a chance to try some of the food from the restaurant prepared for the food festival, and the chicken croquettes were simply amazing! We had a chance to try some of the food from the restaurant prepared for the food festival, and the chicken croquettes were simply amazing!",
-                                                      style:
-                                                          GoogleFonts.nunito()),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return Container(
-                                height: 1,
-                                color: ColorConst.grey,
-                              );
-                            },
-                            itemCount: 2),
-                      ),
-                    ),
-                  ],
-                )),
+            // const SizedBox(height: 10),
+            // Container(
+            //     color: ColorConst.white,
+            //     width: double.infinity,
+            //     child: Column(
+            //       children: [
+            //         Padding(
+            //           padding: const EdgeInsets.all(8.0),
+            //           child: Row(
+            //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //             children: [
+            //               Text("reviews".toUpperCase()),
+            //               InkWell(
+            //                 onTap: () {
+            //                   Navigator.of(context).push(PageTransition(
+            //                       child: Sc16Reviews(),
+            //                       type: PageTransitionType.fade));
+            //                 },
+            //                 child: Text(
+            //                   "See all reviews",
+            //                   style: GoogleFonts.nunito(
+            //                       fontWeight: FontWeight.bold,
+            //                       color: ColorConst.pink),
+            //                 ),
+            //               ),
+            //             ],
+            //           ),
+            //         ),
+            //         SizedBox(
+            //           height: 250,
+            //           // width: double.infinity,
+            //           child: Padding(
+            //             padding: const EdgeInsets.all(8.0),
+            //             child: ListView.separated(
+            //                 itemBuilder: (context, index) {
+            //                   return Row(
+            //                     children: [
+            //                       Expanded(
+            //                         child: Column(
+            //                           crossAxisAlignment:
+            //                               CrossAxisAlignment.center,
+            //                           children: [
+            //                             Row(
+            //                               children: [
+            //                                 SizedBox(width: 20),
+            //                                 Expanded(
+            //                                   child: Column(
+            //                                     crossAxisAlignment:
+            //                                         CrossAxisAlignment.start,
+            //                                     children: [
+            //                                       const SizedBox(
+            //                                         child: CircleAvatar(
+            //                                           radius: 30,
+            //                                           backgroundImage:
+            //                                               AssetImage(
+            //                                             ImgAsset.Avatar,
+            //                                           ),
+            //                                         ),
+            //                                       ),
+            //                                       Row(
+            //                                         children: [
+            //                                           Text("Anna Rose",
+            //                                               style: GoogleFonts
+            //                                                   .nunito(
+            //                                                       fontSize: 16,
+            //                                                       fontWeight:
+            //                                                           FontWeight
+            //                                                               .bold)),
+            //                                           SizedBox(
+            //                                             width: 20,
+            //                                           ),
+            //                                           SvgPicture.asset(
+            //                                               SvgAsset.IG_STAR),
+            //                                           SvgPicture.asset(
+            //                                               SvgAsset.IG_STAR),
+            //                                           SvgPicture.asset(
+            //                                               SvgAsset.IG_STAR),
+            //                                           SvgPicture.asset(
+            //                                               SvgAsset.IG_STAR),
+            //                                           SvgPicture.asset(
+            //                                               SvgAsset.IG_STAR),
+            //                                         ],
+            //                                       ),
+            //                                       Text("2 hours",
+            //                                           style:
+            //                                               GoogleFonts.nunito()),
+            //                                       Text(
+            //                                           "We had a chance to try some of the food from the restaurant prepared for the food festival, and the chicken croquettes were simply amazing! We had a chance to try some of the food from the restaurant prepared for the food festival, and the chicken croquettes were simply amazing! We had a chance to try some of the food from the restaurant prepared for the food festival, and the chicken croquettes were simply amazing! We had a chance to try some of the food from the restaurant prepared for the food festival, and the chicken croquettes were simply amazing!",
+            //                                           style:
+            //                                               GoogleFonts.nunito()),
+            //                                     ],
+            //                                   ),
+            //                                 ),
+            //                               ],
+            //                             ),
+            //                           ],
+            //                         ),
+            //                       ),
+            //                     ],
+            //                   );
+            //                 },
+            //                 separatorBuilder: (context, index) {
+            //                   return Container(
+            //                     height: 1,
+            //                     color: ColorConst.grey,
+            //                   );
+            //                 },
+            //                 itemCount: 2),
+            //           ),
+            //         ),
+            //       ],
+            //     )),
           ]),
         ),
       ),
